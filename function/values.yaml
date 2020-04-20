@@ -1,0 +1,16 @@
+replicas: 0
+useInterpodAntiAffinity: false
+memoryRequests: 256Mi
+cpuRequests: 250m
+memoryLimits: 1Gi
+cpuLimits: 1
+imagePullPolicy: IfNotPresent
+dnsConfig:
+  ndots: "3"
+pdb:
+  enabled: true
+  maxUnavailable: 50%
+global:
+  enableKeyVaults: false
+prometheus:
+  enabled: false
