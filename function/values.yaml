@@ -4,6 +4,10 @@ memoryRequests: 256Mi
 cpuRequests: 250m
 memoryLimits: 1Gi
 cpuLimits: 1
+devmemoryRequests: 256Mi
+devcpuRequests: 250m
+devmemoryLimits: 1Gi
+devcpuLimits: 1
 imagePullPolicy: IfNotPresent
 dnsConfig:
   ndots: "3"
