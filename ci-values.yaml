@@ -1,1 +1,1 @@
-image: hmcts.azurecr.io/hmcts/plum-batch:latest
+image: hmctspublic.azurecr.io/plum/batch:latest
