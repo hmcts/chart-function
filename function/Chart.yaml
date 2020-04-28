@@ -22,5 +22,5 @@ appVersion: 0.1.0
 
 dependencies: # A list of the chart requirements (optional)
   - name: library
-    version: 0.1.0-beta
+    version: 0.1.2-beta
     repository: '@hmctspublic'
