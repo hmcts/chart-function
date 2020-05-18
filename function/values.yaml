@@ -1,4 +1,3 @@
-replicas: 0
 useInterpodAntiAffinity: false
 memoryRequests: 256Mi
 cpuRequests: 250m
@@ -11,8 +10,24 @@ devcpuLimits: 1
 imagePullPolicy: IfNotPresent
 dnsConfig:
   ndots: "3"
-pdb:
-  enabled: true
-  maxUnavailable: 50%
 global:
   enableKeyVaults: false
+scaleType: job
+job:
+  parallelism: 1 # [max number of desired pods](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#controlling-parallelism)
+  completions: 1 # [desired number of successfully finished pods](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#controlling-parallelism)
+  activeDeadlineSeconds: 600 # Specifies the duration in seconds relative to the startTime that the job may be active before the system tries to terminate it; value must be positive integer
+  backoffLimit: 6 # Specifies the number of retries before marking this job failed. Defaults to 6
+pollingInterval: 30  # Optional. Default: 30 seconds
+cooldownPeriod:  300 # Optional. Default: 300 seconds
+minReplicaCount: 0   # Optional. Default: 0
+maxReplicaCount: 5 # Optional. Default: 5
+trigger:
+  type: azure-servicebus
+  servicebus:
+    # Required: queueName OR topicName and subscriptionName
+    queueName:
+    topicName:
+    subscriptionName: 
+    connection: # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
+    queueLength: 1

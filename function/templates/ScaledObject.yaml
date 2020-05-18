@@ -1,0 +1,26 @@
+apiVersion: keda.k8s.io/v1alpha1
+kind: ScaledObject
+metadata:
+  name: {{ template "hmcts.releasename.v1" . }}
+spec:
+  scaleType: {{ .Values.scaleType }}
+  pollingInterval: {{ .Values.pollingInterval }}
+  cooldownPeriod:  {{ .Values.cooldownPeriod }}
+  minReplicaCount: {{ .Values.minReplicaCount }}
+  maxReplicaCount: {{ .Values.maxReplicaCount }}
+  jobTargetRef:
+    parallelism: {{ .Values.job.parallelism }}
+    completions: {{ .Values.job.completions }}
+    activeDeadlineSeconds: {{ .Values.job.activeDeadlineSeconds }}
+    backoffLimit: {{ .Values.job.backoffLimit }}
+{{ include "hmcts.podtemplate.v1.tpl" . | indent 4 }}
+  triggers:
+    - type: {{ .Values.trigger.type}}
+      {{- if eq .Values.trigger.type "azure-servicebus" }}
+      metadata:
+        queueName: {{ .Values.trigger.servicebus.queueName}}
+        topicName: {{ .Values.trigger.servicebus.topicName}}
+        subscriptionName: {{ .Values.trigger.servicebus.subscriptionName}}
+        connection: {{ .Values.trigger.servicebus.connection}}
+        queueLength: {{ .Values.trigger.servicebus.queueLength}}
+      {{- end }}
