@@ -18,9 +18,13 @@ spec:
     - type: {{ .Values.trigger.type}}
       {{- if eq .Values.trigger.type "azure-servicebus" }}
       metadata:
-        queueName: {{ .Values.trigger.servicebus.queueName}}
-        topicName: {{ .Values.trigger.servicebus.topicName}}
-        subscriptionName: {{ .Values.trigger.servicebus.subscriptionName}}
-        connection: {{ .Values.trigger.servicebus.connection}}
-        queueLength: {{ .Values.trigger.servicebus.queueLength}}
+        {{- if .Values.trigger.servicebus.queueName }}
+        queueName: {{ .Values.trigger.servicebus.queueName }}
+        {{- end }}
+        {{- if .Values.trigger.servicebus.topicName }}
+        topicName: {{ .Values.trigger.servicebus.topicName }}
+        subscriptionName: {{ .Values.trigger.servicebus.subscriptionName }}
+        {{- end }}
+        connection: {{ .Values.trigger.servicebus.connection }}
+        queueLength: {{ .Values.trigger.servicebus.queueLength | quote}}
       {{- end }}
