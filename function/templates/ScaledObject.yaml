@@ -33,7 +33,9 @@ spec:
         {{- if .Values.trigger.blob.blobCount }}
         blobCount: {{ .Values.trigger.blob.blobCount | quote }}
         {{- end }}
+        {{- if .Values.trigger.blob.connection }}
         connection: {{ .Values.trigger.blob.connection }}
+        {{- end }}
         {{- if .Values.trigger.blob.blobPrefix }}
         blobPrefix: {{ .Values.trigger.blob.blobPrefix }}
         {{- end }}
