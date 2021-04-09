@@ -23,7 +23,7 @@ jobs:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
           chartName: function
-          chartReleaseName: chart-function-ci-test
+          chartReleaseName: chart-function-ci-servicebus-test
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-servicebus.yaml
@@ -35,7 +35,7 @@ jobs:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
           chartName: function
-          chartReleaseName: chart-function-ci-test
+          chartReleaseName: chart-function-ci-blob-test
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob.yaml
