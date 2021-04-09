@@ -31,9 +31,7 @@ spec:
       metadata:
         blobContainerName: {{ .Values.trigger.blob.blobContainerName }}
         blobCount: {{ .Values.trigger.blob.blobCount | quote }}
-        {{- if .Values.trigger.blob.connection }}
         connection: {{ .Values.trigger.blob.connection }}
-        {{- end }}
-        blobPrefix: {{ .Values.trigger.blob.blobPrefix }}
+        blobPrefix: {{ .Values.trigger.blob.blobPrefix | quote }}
         blobDelimiter: {{ .Values.trigger.blob.blobDelimiter }}
       {{- end }}
