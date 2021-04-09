@@ -23,11 +23,19 @@ cooldownPeriod:  300 # Optional. Default: 300 seconds
 minReplicaCount: 0   # Optional. Default: 0
 maxReplicaCount: 5 # Optional. Default: 5
 trigger:
-  type: azure-servicebus
+  type: azure-servicebus # https://keda.sh/docs/1.4/scalers/azure-service-bus/#trigger-specification
   servicebus:
     # Required: queueName OR topicName and subscriptionName
     queueName:
     topicName:
-    subscriptionName: 
+    subscriptionName:
     connection: # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
     queueLength: 1
+#  type: azure-blob (https://keda.sh/docs/1.4/scalers/azure-storage-blob/#trigger-specification)
+#  blob:
+#    # Required: blobContainerName and blobCount
+#    blobContainerName: functions-blob # Required: Name of Azure Blob Storage container
+#    blobCount: '5' # Optional. Amount of blobs to scale out on. Default: 5 blobs
+#    connection: STORAGE_CONNECTIONSTRING_ENV_NAME # Optional if TriggerAuthentication defined with pod identity or connection string authentication.
+#    blobPrefix:  # Optional. Prefix for the Blob. Use this to specifiy sub path for the blobs if required. Default : ""
+#    blobDelimiter: # Optional. Delimiter for identifying the blob Prefix. Default: "/"

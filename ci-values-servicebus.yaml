@@ -3,7 +3,7 @@ trigger:
   type: azure-servicebus
   servicebus:
     # Required: queueName OR topicName and subscriptionName
-    queueName: 
+    queueName:
     topicName: test-topic
     subscriptionName: test-subscription
     connection: TEST_ENV # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
