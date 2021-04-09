@@ -16,16 +16,29 @@ resources:
       endpoint: 'hmcts'
 
 jobs:
-  - job: Validate
+  - job: ValidateServiceBus
     pool:
       vmImage: 'Ubuntu 16.04'
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
           chartName: function
-          chartReleaseName: chart-function-ci-test
+          chartReleaseName: chart-function-ci-servicebus-test
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
+          valuesFile: ci-values-servicebus.yaml
+
+  - job: ValidateBlob
+    pool:
+      vmImage: 'Ubuntu 16.04'
+    steps:
+      - template: steps/charts/validate.yaml@cnp-library
+        parameters:
+          chartName: function
+          chartReleaseName: chart-function-ci-blob-test
+          chartNamespace: chart-tests
+          helmInstallTimeout: "500"
+          valuesFile: ci-values-blob.yaml
 
   - job: Release
     # Make sure we have a tag to run this job
@@ -34,7 +47,9 @@ jobs:
           succeeded(),
           startsWith(variables['Build.SourceBranch'], 'refs/tags/')
         )
-    dependsOn: Validate
+    dependsOn:
+      - ValidateServiceBus
+      - ValidateBlob
     pool:
       vmImage: 'Ubuntu 16.04'
     steps:
