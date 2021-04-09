@@ -26,12 +26,12 @@ spec:
         subscriptionName: {{ .Values.trigger.servicebus.subscriptionName }}
         {{- end }}
         connection: {{ .Values.trigger.servicebus.connection }}
-        queueLength: {{ .Values.trigger.servicebus.queueLength | quote}}
+        queueLength: {{ .Values.trigger.servicebus.queueLength | quote }}
       {{- else if eq .Values.trigger.type "azure-blob" }}
       metadata:
-        blobContainerName: {{ .Values.trigger.blob.containerName }}
+        blobContainerName: {{ .Values.trigger.blob.blobContainerName }}
         {{- if .Values.trigger.blob.blobCount }}
-        blobCount: {{ .Values.trigger.blob.blobCount }}
+        blobCount: {{ .Values.trigger.blob.blobCount | quote }}
         {{- end }}
         connection: {{ .Values.trigger.blob.connection }}
         {{- if .Values.trigger.blob.blobPrefix }}

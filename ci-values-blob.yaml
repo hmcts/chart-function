@@ -3,7 +3,7 @@ trigger:
   type: azure-blob
   blob:
     # Required: blobContainerName
-    blobContainerName: test-functions-blob # Required: Name of Azure Blob Storage container
+    blobContainerName: 'test-functions-blob' # Required: Name of Azure Blob Storage container
     blobCount: '1' # Optional. Amount of blobs to scale out on. Default: 5 blobs
     connection: TEST_ENV # Optional if TriggerAuthentication defined with pod identity or connection string authentication.
     blobPrefix: "" # Optional. Prefix for the Blob. Use this to specifiy sub path for the blobs if required. Default : ""
