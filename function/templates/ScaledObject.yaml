@@ -1,3 +1,13 @@
+{{- if eq .Values.trigger.blob.connection "" }}
+apiVersion: keda.k8s.io/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: azure-blob-auth
+spec:
+  podIdentity:
+    provider: azure
+---
+{{- end }}
 apiVersion: keda.k8s.io/v1alpha1
 kind: ScaledObject
 metadata:
@@ -31,7 +41,14 @@ spec:
       metadata:
         blobContainerName: {{ .Values.trigger.blob.blobContainerName }}
         blobCount: {{ .Values.trigger.blob.blobCount | quote }}
+        {{- if ne .Values.trigger.blob.connection "" }}
         connection: {{ .Values.trigger.blob.connection }}
+        {{- end }}
+        accountName: {{ .Values.trigger.blob.accountName | quote }}
         blobPrefix: {{ .Values.trigger.blob.blobPrefix | quote }}
         blobDelimiter: {{ .Values.trigger.blob.blobDelimiter }}
+      {{- end }}
+      {{- if eq .Values.trigger.blob.connection "" }}
+      authenticationRef:
+        name: azure-blob-auth # authenticationRef would need either podIdentity or define a connection parameter
       {{- end }}

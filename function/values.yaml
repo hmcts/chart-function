@@ -32,9 +32,10 @@ trigger:
     connection: # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
     queueLength: 1
   blob:
-    # Required: blobContainerName and connection
+    # Required: blobContainerName and accountName (when using pod identity) or connection
     blobContainerName:
+    accountName: ""
+    connection: ""
     blobCount: 1
-    connection: # connection string authentication.
     blobPrefix: ""
     blobDelimiter: "/"
