@@ -8,6 +8,7 @@ devcpuRequests: 250m
 devmemoryLimits: 1Gi
 devcpuLimits: 1
 imagePullPolicy: IfNotPresent
+restartPolicy: OnFailure
 dnsConfig:
   ndots: "3"
 global:
