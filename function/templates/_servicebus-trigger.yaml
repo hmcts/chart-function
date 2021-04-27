@@ -1,0 +1,14 @@
+{{/* metadata for an Azure Service Bus Trigger */}}
+{{- define "function.servicebus" }}
+- type: azure-servicebus
+  metadata:
+    {{- if .queueName }}
+    queueName: {{ .queueName }}
+    {{- end }}
+    {{- if .topicName }}
+    topicName: {{ .topicName }}
+    subscriptionName: {{ .subscriptionName }}
+    {{- end }}
+    connection: {{ .connection }}
+    queueLength: {{ .queueLength | quote }}
+{{- end }}
