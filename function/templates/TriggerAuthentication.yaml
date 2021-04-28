@@ -5,5 +5,5 @@ metadata:
   name:  {{ tpl .Values.triggerAuthName $ }}
 spec:
   podIdentity:
-    provider: {{ .Values.triggerPodIdentityProvider | quote }} # none | azure | gcp | spiffe | aws-eks | aws-kiam
+    provider: {{ .Values.triggerPodIdentityProvider }} # none | azure | gcp | spiffe | aws-eks | aws-kiam
 {{- end }}
