@@ -53,7 +53,7 @@ values:
         accountName: "rpesendletterdemo"
 ```
 
-Since `3.0.0`
+Since `1.0.0`
 ```helmyaml
 values:
   function:
