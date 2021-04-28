@@ -42,7 +42,7 @@ the Blob Store is in and leave the `connection` value empty.
 Since version `1.0.0`, the chart now supports multiple triggers of different types and as such, the `Values` need to be 
 supplied as a list instead of a single object.
 
-Example of `2.x.x` `Values`
+Example of `0.x.x` `Values`
 ```helmyaml
 values:
   function:
