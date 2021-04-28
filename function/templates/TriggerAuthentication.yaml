@@ -1,4 +1,4 @@
-{{- if ne .Values.triggerAuthName "" }}
+{{- if .Values.triggerAuthName }}
 apiVersion: keda.k8s.io/v1alpha1
 kind: TriggerAuthentication
 metadata:
