@@ -8,7 +8,7 @@ It currently supports only [scaling jobs](https://keda.sh/docs/1.4/concepts/scal
 
 ## Supported triggers
 
-It currently supports only 
+It currently supports below triggers
 ### [Azure service bus trigger](https://keda.sh/docs/1.4/scalers/azure-service-bus/)
 ```helmyaml
 triggers
