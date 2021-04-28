@@ -1,14 +1,3 @@
-{{- $authRequired := include "function.auth-required" . -}}
-{{- if eq $authRequired "1" }}
-apiVersion: keda.k8s.io/v1alpha1
-kind: TriggerAuthentication
-metadata:
-  name: azure-mi-auth
-spec:
-  podIdentity:
-    provider: azure
----
-{{- end }}
 apiVersion: keda.k8s.io/v1alpha1
 kind: ScaledObject
 metadata:

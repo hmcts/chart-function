@@ -57,6 +57,7 @@ Since `1.0.0`
 ```helmyaml
 values:
   function:
+    triggerAuthName: "azure-mi-auth"
     triggers:
       - type: azure-blob
         blobContainerName: "new"

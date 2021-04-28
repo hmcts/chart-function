@@ -10,8 +10,8 @@
     accountName: {{ .accountName | quote }}
     blobPrefix: {{ .blobPrefix | quote }}
     blobDelimiter: {{ .blobDelimiter }}
-    {{- if eq .connection "" }}
+    {{- if ne .Values.triggerAuthName "" }}
     authenticationRef:
-      name: azure-mi-auth # authenticationRef would need either podIdentity or define a connection parameter
+      name: {{- $.Values.triggerAuthName }} # authenticationRef would need either podIdentity or define a connection parameter
     {{- end }}
 {{- end }}

@@ -1,0 +1,9 @@
+{{- if ne .Values.triggerAuthName "" }}
+apiVersion: keda.k8s.io/v1alpha1
+kind: TriggerAuthentication
+metadata:
+  name: {{- .Values.triggerAuthName }}
+spec:
+  podIdentity:
+    provider: {{- .Values.trigger.podIdentityProvider }} # none | azure | gcp | spiffe | aws-eks | aws-kiam
+{{- end }}
