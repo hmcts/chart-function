@@ -2,16 +2,16 @@
 {{- define "function.blob" }}
 - type: azure-blob
   metadata:
-    blobContainerName: {{ .blobContainerName }}
-    blobCount: {{ .blobCount | quote }}
-    {{- if .connection }}
-    connection: {{ .connection }}
+    blobContainerName: {{ .trigger.blobContainerName }}
+    blobCount: {{ .trigger.blobCount | quote }}
+    {{- if .trigger.connection }}
+    connection: {{ .trigger.connection }}
     {{- end }}
-    accountName: {{ .accountName | quote }}
-    blobPrefix: {{ .blobPrefix | quote }}
-    blobDelimiter: {{ .blobDelimiter }}
-    {{- if $.Values.triggerAuthName }}
+    accountName: {{ .trigger.accountName | quote }}
+    blobPrefix: {{ .trigger.blobPrefix | quote }}
+    blobDelimiter: {{ .trigger.blobDelimiter }}
+    {{- if .triggerAuthName }}
     authenticationRef:
-      name: {{- $.Values.triggerAuthName }} # authenticationRef would need either podIdentity or define a connection parameter
+      name: {{- .triggerAuthName }} # authenticationRef would need either podIdentity or define a connection parameter
     {{- end }}
 {{- end }}
