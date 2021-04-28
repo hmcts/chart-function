@@ -10,8 +10,8 @@
     accountName: {{ .trigger.accountName | quote }}
     blobPrefix: {{ .trigger.blobPrefix | quote }}
     blobDelimiter: {{ .trigger.blobDelimiter }}
-    {{- if .triggerAuthName }}
+    {{- if .root.Values.triggerAuthName }}
     authenticationRef:
-      name: {{ tpl .triggerAuthName $ }} # authenticationRef would need either podIdentity or define a connection parameter
+      name: {{ tpl .root.Values.triggerAuthName .root }} # authenticationRef would need either podIdentity or define a connection parameter
     {{- end }}
 {{- end }}

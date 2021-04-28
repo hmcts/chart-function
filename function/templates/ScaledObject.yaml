@@ -20,7 +20,7 @@ spec:
 {{- include "function.servicebus" . | indent 4 }}
       {{- else if eq .type "azure-blob" }}
       # work around to save having the triggerAuthName copied in the config for each trigger
-      {{- $data := dict "triggerAuthName" $.Values.triggerAuthName "trigger" . }}
+      {{- $data := dict "root" $ "trigger" . }}
 {{- include "function.blob" $data | indent 4 }}
       {{- end }}
     {{- end }}
