@@ -39,7 +39,7 @@ Currently only supported by the Blob Storage Trigger. Simply supply the `account
 the Blob Store is in and leave the `connection` value empty.
 
 ## Upgrading from 2.x.x
-Since version `3.0.0`, the chart now supports multiple triggers of different types and as such, the `Values` need to be 
+Since version `1.0.0`, the chart now supports multiple triggers of different types and as such, the `Values` need to be 
 supplied as a list instead of a single object.
 
 Example of `2.x.x` `Values`
