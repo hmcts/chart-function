@@ -1,0 +1,17 @@
+{{/* metadata for an Azure Blob Storage Trigger */}}
+{{- define "function.blob" }}
+- type: azure-blob
+  metadata:
+    blobContainerName: {{ .trigger.blobContainerName }}
+    blobCount: {{ .trigger.blobCount | quote }}
+    {{- if .trigger.connection }}
+    connection: {{ .trigger.connection }}
+    {{- end }}
+    accountName: {{ .trigger.accountName | quote }}
+    blobPrefix: {{ .trigger.blobPrefix | quote }}
+    blobDelimiter: {{ .trigger.blobDelimiter }}
+  {{- if .root.Values.triggerAuthName }}
+  authenticationRef:
+    name: {{ tpl .root.Values.triggerAuthName .root }} # authenticationRef would need either podIdentity or define a connection parameter
+  {{- end }}
+{{- end }}

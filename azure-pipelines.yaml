@@ -40,6 +40,18 @@ jobs:
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob.yaml
 
+  - job: ValidateMixed
+    pool:
+      vmImage: 'Ubuntu 16.04'
+    steps:
+      - template: steps/charts/validate.yaml@cnp-library
+        parameters:
+          chartName: function
+          chartReleaseName: chart-function-ci-mixed-test
+          chartNamespace: chart-tests
+          helmInstallTimeout: "500"
+          valuesFile: ci-values-mixed.yaml
+
   - job: Release
     # Make sure we have a tag to run this job
     condition: >

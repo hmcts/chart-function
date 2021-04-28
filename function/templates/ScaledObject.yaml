@@ -1,13 +1,3 @@
-{{- if eq .Values.trigger.blob.connection "" }}
-apiVersion: keda.k8s.io/v1alpha1
-kind: TriggerAuthentication
-metadata:
-  name: azure-blob-auth
-spec:
-  podIdentity:
-    provider: azure
----
-{{- end }}
 apiVersion: keda.k8s.io/v1alpha1
 kind: ScaledObject
 metadata:
@@ -25,30 +15,12 @@ spec:
     backoffLimit: {{ .Values.job.backoffLimit }}
 {{ include "hmcts.podtemplate.v2.tpl" . | indent 4 }}
   triggers:
-    - type: {{ .Values.trigger.type}}
-      {{- if eq .Values.trigger.type "azure-servicebus" }}
-      metadata:
-        {{- if .Values.trigger.servicebus.queueName }}
-        queueName: {{ .Values.trigger.servicebus.queueName }}
-        {{- end }}
-        {{- if .Values.trigger.servicebus.topicName }}
-        topicName: {{ .Values.trigger.servicebus.topicName }}
-        subscriptionName: {{ .Values.trigger.servicebus.subscriptionName }}
-        {{- end }}
-        connection: {{ .Values.trigger.servicebus.connection }}
-        queueLength: {{ .Values.trigger.servicebus.queueLength | quote }}
-      {{- else if eq .Values.trigger.type "azure-blob" }}
-      metadata:
-        blobContainerName: {{ .Values.trigger.blob.blobContainerName }}
-        blobCount: {{ .Values.trigger.blob.blobCount | quote }}
-        {{- if ne .Values.trigger.blob.connection "" }}
-        connection: {{ .Values.trigger.blob.connection }}
-        {{- end }}
-        accountName: {{ .Values.trigger.blob.accountName | quote }}
-        blobPrefix: {{ .Values.trigger.blob.blobPrefix | quote }}
-        blobDelimiter: {{ .Values.trigger.blob.blobDelimiter }}
+    {{- range .Values.triggers }}
+      {{- if eq .type "azure-servicebus" }}
+{{- include "function.servicebus" . | indent 4 }}
+      {{- else if eq .type "azure-blob" }}
+      # work around to save having the triggerAuthName copied in the config for each trigger
+      {{- $data := dict "root" $ "trigger" . }}
+{{- include "function.blob" $data | indent 4 }}
       {{- end }}
-      {{- if eq .Values.trigger.blob.connection "" }}
-      authenticationRef:
-        name: azure-blob-auth # authenticationRef would need either podIdentity or define a connection parameter
-      {{- end }}
+    {{- end }}
