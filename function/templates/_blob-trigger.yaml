@@ -4,13 +4,13 @@
   metadata:
     blobContainerName: {{ .blobContainerName }}
     blobCount: {{ .blobCount | quote }}
-    {{- if ne .connection "" }}
+    {{- if .connection }}
     connection: {{ .connection }}
     {{- end }}
     accountName: {{ .accountName | quote }}
     blobPrefix: {{ .blobPrefix | quote }}
     blobDelimiter: {{ .blobDelimiter }}
-    {{- if ne .Values.triggerAuthName "" }}
+    {{- if ne $.Values.triggerAuthName "" }}
     authenticationRef:
       name: {{- $.Values.triggerAuthName }} # authenticationRef would need either podIdentity or define a connection parameter
     {{- end }}
