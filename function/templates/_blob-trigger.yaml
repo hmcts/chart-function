@@ -12,6 +12,6 @@
     blobDelimiter: {{ .trigger.blobDelimiter }}
     {{- if .triggerAuthName }}
     authenticationRef:
-      name: {{- .triggerAuthName }} # authenticationRef would need either podIdentity or define a connection parameter
+      name: {{ tpl .triggerAuthName $ }} # authenticationRef would need either podIdentity or define a connection parameter
     {{- end }}
 {{- end }}

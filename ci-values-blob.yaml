@@ -7,7 +7,7 @@ triggers:
     accountName: "testaccount"
     blobPrefix: "" # Optional. Prefix for the Blob. Use this to specifiy sub path for the blobs if required. Default : ""
     blobDelimiter: "/" # Optional. Delimiter for identifying the blob Prefix. Default: "/"
-    triggerAuthName: "azure-mi-auth-test"
+    triggerAuthName: "azure-mi-auth-{{ .Values.scaleType }}"
     triggerPodIdentity: "azure"
 environment:
   TEST_ENV: "test"
