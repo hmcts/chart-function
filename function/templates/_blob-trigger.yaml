@@ -3,7 +3,7 @@
 - type: azure-blob
   metadata:
     blobContainerName: {{ .trigger.blobContainerName }}
-    blobCount: {{ .trigger.blobCount | default "1" }}
+    blobCount: {{ .trigger.blobCount | default "1" | quote }}
     {{- if .trigger.connection }}
     connection: {{ .trigger.connection }}
     {{- end }}
