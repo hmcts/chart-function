@@ -3,15 +3,15 @@
 - type: azure-blob
   metadata:
     blobContainerName: {{ .trigger.blobContainerName }}
-    blobCount: {{ .trigger.blobCount | quote }}
+    blobCount: {{ .trigger.blobCount | default "1" }}
     {{- if .trigger.connection }}
     connection: {{ .trigger.connection }}
     {{- end }}
     {{- if .trigger.accountName }}
     accountName: {{ tpl .trigger.accountName .root }}
     {{- end }}
-    blobPrefix: {{ .trigger.blobPrefix | quote }}
-    blobDelimiter: {{ .trigger.blobDelimiter }}
+    blobPrefix: {{ .trigger.blobPrefix | default "" | quote }}
+    blobDelimiter: {{ .trigger.blobDelimiter | default "/" }}
   {{- if .root.Values.triggerAuthName }}
   authenticationRef:
     name: {{ tpl .root.Values.triggerAuthName .root }} # authenticationRef would need either podIdentity or define a connection parameter
