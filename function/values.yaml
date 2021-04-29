@@ -13,6 +13,7 @@ dnsConfig:
   ndots: "3"
 global:
   enableKeyVaults: false
+  environment: prod
 scaleType: job
 job:
   parallelism: 1 # [max number of desired pods](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#controlling-parallelism)
