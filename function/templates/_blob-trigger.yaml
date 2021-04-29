@@ -7,7 +7,9 @@
     {{- if .trigger.connection }}
     connection: {{ .trigger.connection }}
     {{- end }}
+    {{- if .trigger.connection }}
     accountName: {{ tpl .trigger.accountName .root }}
+    {{- end }}
     blobPrefix: {{ .trigger.blobPrefix | quote }}
     blobDelimiter: {{ .trigger.blobDelimiter }}
   {{- if .root.Values.triggerAuthName }}
