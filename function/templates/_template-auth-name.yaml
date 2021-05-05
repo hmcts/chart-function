@@ -5,3 +5,4 @@ name:  {{ tpl .Values.triggerAuth.nameOverride . }}
 {{ else }}
 name:  {{ template "hmcts.releasename.v2" . }}
 {{- end }}
+{{- end }}
