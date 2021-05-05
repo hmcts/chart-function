@@ -1,4 +1,4 @@
-{{- if and .Values.triggerAuth.create }}
+{{- if and .Values.triggerAuth.create .Values.triggerAuth.enabled }}
 apiVersion: keda.k8s.io/v1alpha1
 kind: TriggerAuthentication
 metadata:
