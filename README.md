@@ -38,6 +38,16 @@ triggers
 Currently only supported by the Blob Storage Trigger. Simply supply the `accountName` value of the Storage Account which 
 the Blob Store is in and leave the `connection` value empty.
 
+If multiple services need to reference the same Trigger Auth for some reason, use the `nameOverride` value like this:
+```helmyaml
+values:
+  function:
+    triggerAuth:
+      enabled: true
+      nameOverride: "azure-mi-auth{{ .Values.something-dynamic-even }}"
+...
+```
+
 ## Upgrading from 0.x.x
 Since version `1.0.0`, the chart now supports multiple triggers of different types and as such, the `Values` need to be 
 supplied as a list instead of a single object.
@@ -57,7 +67,8 @@ Since `1.0.0`
 ```helmyaml
 values:
   function:
-    triggerAuthName: "azure-mi-auth"
+    triggerAuth:
+      enabled: true
     triggers:
       - type: azure-blob
         blobContainerName: "new"
