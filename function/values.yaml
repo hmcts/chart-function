@@ -24,6 +24,9 @@ pollingInterval: 30  # Optional. Default: 30 seconds
 cooldownPeriod:  300 # Optional. Default: 300 seconds
 minReplicaCount: 0   # Optional. Default: 0
 maxReplicaCount: 5 # Optional. Default: 5
-triggerAuthName: ""
+triggerAuth:
+  create: true
+  enabled: false
+  nameOverride: ""
 triggerPodIdentityProvider: "azure" # none | azure | gcp | spiffe | aws-eks | aws-kiam
 triggers: []

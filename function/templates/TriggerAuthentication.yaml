@@ -1,8 +1,8 @@
-{{- if .Values.triggerAuthName }}
+{{- if and .Values.triggerAuth.create .Values.triggerAuth.enabled }}
 apiVersion: keda.k8s.io/v1alpha1
 kind: TriggerAuthentication
 metadata:
-  name:  {{ tpl .Values.triggerAuthName $ }}
+{{- include "function.trigger-auth-name" . | indent 2 }}
 {{- ( include "hmcts.labels.v2" . ) | indent 2 }}
 spec:
   podIdentity:
