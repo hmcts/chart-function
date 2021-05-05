@@ -2,6 +2,7 @@ apiVersion: keda.k8s.io/v1alpha1
 kind: ScaledObject
 metadata:
   name: {{ template "hmcts.releasename.v2" . }}
+  {{- ( include "hmcts.labels.v2" . ) | indent 2 }}
 spec:
   scaleType: {{ .Values.scaleType }}
   pollingInterval: {{ .Values.pollingInterval }}
