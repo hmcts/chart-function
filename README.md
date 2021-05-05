@@ -43,6 +43,7 @@ If multiple services need to reference the same Trigger Auth for some reason, us
 values:
   function:
     triggerAuth:
+      create: false
       enabled: true
       nameOverride: "azure-mi-auth{{ .Values.something-dynamic-even }}"
 ...
