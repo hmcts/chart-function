@@ -9,6 +9,6 @@
     topicName: {{ .topicName }}
     subscriptionName: {{ .subscriptionName }}
     {{- end }}
-    connectionFromEnv: {{ .connection }}
-    messageCount: {{ .queueLength | quote }}
+    connectionFromEnv: {{ coalesce .connectionFromEnv .connection }}
+    messageCount: {{ coalesce .messageCount .queueLength | quote }}
 {{- end }}

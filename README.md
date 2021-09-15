@@ -17,8 +17,10 @@ triggers
     queueName:
     topicName:
     subscriptionName:
-    connection: # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
-    queueLength: 1
+    connection:        # Deprecated: use connectionFromEnv
+    connectionFromEnv: # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
+    queueLength: 1     # Deprecated: use messageCount
+    messageCount: 1
 ```
 ### [Azure blob storage trigger](https://keda.sh/docs/2.4/scalers/azure-storage-blob/)
 ```helmyaml
@@ -27,7 +29,8 @@ triggers
     # Required: blobContainerName and accountName (when using pod identity) or connection
     blobContainerName:
     accountName: ""
-    connection: ""
+    connection: ""         # Deprecated: use connectionFromEnv
+    connectionFromEnv: ""
     blobCount: 1
     blobPrefix: ""
     blobDelimiter: "/"
