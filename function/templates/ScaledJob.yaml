@@ -1,13 +1,12 @@
-apiVersion: keda.k8s.io/v1alpha1
-kind: ScaledObject
+apiVersion: keda.sh/v1alpha1
+kind: ScaledJob
 metadata:
   name: {{ template "hmcts.releasename.v2" . }}
   {{- ( include "hmcts.labels.v2" . ) | indent 2 }}
 spec:
-  scaleType: {{ .Values.scaleType }}
   pollingInterval: {{ .Values.pollingInterval }}
-  cooldownPeriod:  {{ .Values.cooldownPeriod }}
-  minReplicaCount: {{ .Values.minReplicaCount }}
+  successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit }}
   maxReplicaCount: {{ .Values.maxReplicaCount }}
   jobTargetRef:
     parallelism: {{ .Values.job.parallelism }}
