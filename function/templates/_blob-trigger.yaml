@@ -5,7 +5,7 @@
     blobContainerName: {{ .trigger.blobContainerName }}
     blobCount: {{ .trigger.blobCount | default "1" | quote }}
     {{- if .trigger.connection }}
-    connectionFromEnv: {{ .trigger.connection }}
+    connectionFromEnv: {{ coalesce .trigger.connectionFromEnv .trigger.connection }}
     {{- end }}
     {{- if .trigger.accountName }}
     accountName: {{ tpl .trigger.accountName .root }}
