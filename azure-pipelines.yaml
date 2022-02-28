@@ -1,5 +1,8 @@
 parameters:
-  serviceConnection: 'dcd_sp_ado_ithc_operations_v2'
+  - name: serviceConnection
+    displayName: Service Connection
+    type: string
+    default: 'dcd_sp_ado_ithc_operations_v2'
 
 name: chart-function pipeline
 trigger:
