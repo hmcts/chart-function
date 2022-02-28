@@ -4,12 +4,12 @@ Basic helm chart for running functions using [KEDA](https://keda.sh/)
 
 ## Supported scale types
 
-It currently supports only [scaling jobs](https://keda.sh/docs/2.4/concepts/scaling-jobs/).
+It currently supports only [scaling jobs](https://keda.sh/docs/2.6/concepts/scaling-jobs/).
 
 ## Supported triggers
 
 It currently supports below triggers
-### [Azure service bus trigger](https://keda.sh/docs/2.4/scalers/azure-service-bus/)
+### [Azure service bus trigger](https://keda.sh/docs/2.6/scalers/azure-service-bus/)
 ```helmyaml
 triggers
   - type: azure-servicebus 
@@ -22,7 +22,7 @@ triggers
     queueLength: 1     # Deprecated: use messageCount
     messageCount: 1
 ```
-### [Azure blob storage trigger](https://keda.sh/docs/2.4/scalers/azure-storage-blob/)
+### [Azure blob storage trigger](https://keda.sh/docs/2.6/scalers/azure-storage-blob/)
 ```helmyaml
 triggers
   - type: azure-blob
