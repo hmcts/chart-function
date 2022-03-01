@@ -2,7 +2,7 @@ image: hmctspublic.azurecr.io/plum/batch:latest
 triggerAuth:
   enabled: true
   create: true
-  nameOverride: "azure-mi-auth-{{ .Values.global.kind }}"
+  nameOverride: "azure-mi-auth-{{ .Values.pollingInterval }}" # anything dynamic as a test
 triggerPodIdentityProvider: "azure"
 triggers:
   - type: azure-blob
