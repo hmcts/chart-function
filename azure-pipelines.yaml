@@ -1,9 +1,3 @@
-parameters:
-  - name: serviceConnection
-    displayName: Service Connection
-    type: string
-    default: 'dcd_sp_ado_ithc_operations_v2'
-
 name: chart-function pipeline
 trigger:
   branches:
@@ -33,6 +27,9 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-servicebus.yaml
+          aksResourceGroup: cft-ithc-00-rg
+          aksCluster: cft-ithc-00-aks
+          serviceConnection: DCD-CFTAPPS-ITHC
 
   - job: ValidateBlob
     pool:
