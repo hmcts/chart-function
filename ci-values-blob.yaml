@@ -2,7 +2,7 @@ image: hmctspublic.azurecr.io/plum/batch:latest
 triggerAuth:
   enabled: true
   create: true
-  nameOverride: "azure-mi-auth-{{ .Values.scaleType }}"
+  nameOverride: "azure-mi-auth-{{- randAlphaNum 12 | nospace | lower -}}"
 triggerPodIdentityProvider: "azure"
 triggers:
   - type: azure-blob
@@ -10,7 +10,7 @@ triggers:
     blobContainerName: test-functions-blob # Required: Name of Azure Blob Storage container
     blobCount: 1 # Optional. Amount of blobs to scale out on. Default: 5 blobs
     accountName: "testaccount{{ .Values.global.environment }}"
-    blobPrefix: "" # Optional. Prefix for the Blob. Use this to specifiy sub path for the blobs if required. Default : ""
+    blobPrefix: "" # Optional. Prefix for the Blob. Use this to specify sub path for the blobs if required. Default : ""
     blobDelimiter: "/" # Optional. Delimiter for identifying the blob Prefix. Default: "/"
 environment:
   TEST_ENV: "test"
