@@ -71,6 +71,9 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob-release-name.yaml
+          serviceConnection: ${{ parameters.serviceConnection }}
+          aksResourceGroup: ${{ parameters.aksResourceGroup }}
+          aksCluster: ${{ parameters.aksCluster }}
 
   - job: ValidateMixed
     pool:

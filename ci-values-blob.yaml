@@ -2,7 +2,7 @@ image: hmctspublic.azurecr.io/plum/batch:latest
 triggerAuth:
   enabled: true
   create: true
-  nameOverride: "azure-mi-auth-{{ .Values.scaleType }}"
+  nameOverride: "azure-mi-auth-{{ .Values.global.kind }}"
 triggerPodIdentityProvider: "azure"
 triggers:
   - type: azure-blob
