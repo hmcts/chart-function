@@ -1,3 +1,17 @@
+parameters:
+  - name: serviceConnection
+    displayName: Service Connection
+    type: string
+    default: 'DCD-CFTAPPS-DEV' # DCD-CFTAPPS-DEV
+  - name: aksResourceGroup
+    displayName: AKS Resource Group
+    type: string
+    default: 'cft-preview-01-rg' # cft-preview-00-rg
+  - name: aksCluster
+    displayName: AKS Cluster Name
+    type: string
+    default: 'cft-preview-01-aks' # cft-preview-00-aks
+
 name: chart-function pipeline
 trigger:
   branches:
@@ -27,9 +41,9 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-servicebus.yaml
-          aksResourceGroup: cft-ithc-00-rg
-          aksCluster: cft-ithc-00-aks
-          serviceConnection: DCD-CFTAPPS-ITHC
+          serviceConnection: ${{ parameters.serviceConnection }}
+          aksResourceGroup: ${{ parameters.aksResourceGroup }}
+          aksCluster: ${{ parameters.aksCluster }}
 
   - job: ValidateBlob
     pool:
@@ -42,10 +56,13 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob.yaml
+          serviceConnection: ${{ parameters.serviceConnection }}
+          aksResourceGroup: ${{ parameters.aksResourceGroup }}
+          aksCluster: ${{ parameters.aksCluster }}
 
   - job: ValidateBlobUsingReleaseName
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -54,6 +71,9 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob-release-name.yaml
+          serviceConnection: ${{ parameters.serviceConnection }}
+          aksResourceGroup: ${{ parameters.aksResourceGroup }}
+          aksCluster: ${{ parameters.aksCluster }}
 
   - job: ValidateMixed
     pool:
@@ -66,6 +86,9 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-mixed.yaml
+          serviceConnection: ${{ parameters.serviceConnection }}
+          aksResourceGroup: ${{ parameters.aksResourceGroup }}
+          aksCluster: ${{ parameters.aksCluster }}
 
   - job: Release
     # Make sure we have a tag to run this job
