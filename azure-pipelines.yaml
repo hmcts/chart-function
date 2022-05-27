@@ -2,15 +2,15 @@ parameters:
   - name: serviceConnection
     displayName: Service Connection
     type: string
-    default: 'DCD-CFTAPPS-DEV' # DCD-CFTAPPS-DEV
+    default: "DCD-CFTAPPS-DEV" # DCD-CFTAPPS-DEV
   - name: aksResourceGroup
     displayName: AKS Resource Group
     type: string
-    default: 'cft-preview-01-rg' # cft-preview-00-rg
+    default: "cft-preview-01-rg" # cft-preview-00-rg
   - name: aksCluster
     displayName: AKS Cluster Name
     type: string
-    default: 'cft-preview-01-aks' # cft-preview-00-aks
+    default: "cft-preview-01-aks" # cft-preview-00-aks
 
 name: chart-function pipeline
 trigger:
@@ -27,12 +27,12 @@ resources:
       type: github
       ref: refs/heads/master
       name: hmcts/cnp-azuredevops-libraries
-      endpoint: 'hmcts'
+      endpoint: "hmcts"
 
 jobs:
   - job: ValidateServiceBus
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: "ubuntu-latest"
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -45,9 +45,24 @@ jobs:
           aksResourceGroup: ${{ parameters.aksResourceGroup }}
           aksCluster: ${{ parameters.aksCluster }}
 
+  - job: ValidateServiceBusPodIdentity
+    pool:
+      vmImage: "ubuntu-latest"
+    steps:
+      - template: steps/charts/validate.yaml@cnp-library
+        parameters:
+          chartName: function
+          chartReleaseName: chart-function-ci-servicebus-podidentity-test
+          chartNamespace: chart-tests
+          helmInstallTimeout: "500"
+          valuesFile: ci-values-servicebus-podidentity.yaml
+          serviceConnection: ${{ parameters.serviceConnection }}
+          aksResourceGroup: ${{ parameters.aksResourceGroup }}
+          aksCluster: ${{ parameters.aksCluster }}
+
   - job: ValidateBlob
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: "ubuntu-latest"
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -62,7 +77,7 @@ jobs:
 
   - job: ValidateBlobUsingReleaseName
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: "ubuntu-latest"
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -77,7 +92,7 @@ jobs:
 
   - job: ValidateMixed
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: "ubuntu-latest"
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -101,7 +116,7 @@ jobs:
       - ValidateServiceBus
       - ValidateBlob
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: "ubuntu-latest"
     steps:
       - template: steps/charts/release.yaml@cnp-library
         parameters:
