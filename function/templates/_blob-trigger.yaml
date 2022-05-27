@@ -17,3 +17,18 @@
 {{- include "function.trigger-auth-name" .root | indent 4 }}
   {{- end }}
 {{- end }}
+
+
+- type: azure-servicebus
+  metadata:
+    # Required: queueName OR topicName and subscriptionName
+    queueName: functions-sbqueue
+    # or
+    topicName: functions-sbtopic
+    subscriptionName: sbtopic-sub1
+    # Optional, required when pod identity is used
+    namespace: service-bus-namespace
+    # Optional, can use TriggerAuthentication as well
+    connectionFromEnv: SERVICEBUS_CONNECTIONSTRING_ENV_NAME # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
+    # Optional
+    messageCount: "5"

@@ -10,5 +10,10 @@
     subscriptionName: {{ .subscriptionName }}
     {{- end }}
     connectionFromEnv: {{ coalesce .connectionFromEnv .connection }}
+  {{- if .root.Values.triggerAuth.enabled }}
+    namespace: {{ .namespace }}
+  authenticationRef:
+{{- include "function.trigger-auth-name" .root | indent 4 }}
+  {{- end }}
     messageCount: {{ coalesce .messageCount .queueLength | quote }}
 {{- end }}
