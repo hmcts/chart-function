@@ -30,91 +30,91 @@ resources:
       endpoint: "hmcts"
 
 jobs:
-  - job: ValidateServiceBus
-    pool:
-      vmImage: "ubuntu-latest"
-    steps:
-      - template: steps/charts/validate.yaml@cnp-library
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-servicebus-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-servicebus.yaml
-          serviceConnection: ${{ parameters.serviceConnection }}
-          aksResourceGroup: ${{ parameters.aksResourceGroup }}
-          aksCluster: ${{ parameters.aksCluster }}
+  # - job: ValidateServiceBus
+  #   pool:
+  #     vmImage: "ubuntu-latest"
+  #   steps:
+  #     - template: steps/charts/validate.yaml@cnp-library
+  #       parameters:
+  #         chartName: function
+  #         chartReleaseName: chart-function-ci-servicebus-test
+  #         chartNamespace: chart-tests
+  #         helmInstallTimeout: "500"
+  #         valuesFile: ci-values-servicebus.yaml
+  #         serviceConnection: ${{ parameters.serviceConnection }}
+  #         aksResourceGroup: ${{ parameters.aksResourceGroup }}
+  #         aksCluster: ${{ parameters.aksCluster }}
 
-  - job: ValidateServiceBusPodIdentity
-    pool:
-      vmImage: "ubuntu-latest"
-    steps:
-      - template: steps/charts/validate.yaml@cnp-library
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-servicebus-podidentity-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-servicebus-podidentity.yaml
-          serviceConnection: ${{ parameters.serviceConnection }}
-          aksResourceGroup: ${{ parameters.aksResourceGroup }}
-          aksCluster: ${{ parameters.aksCluster }}
+  # - job: ValidateServiceBusPodIdentity
+  #   pool:
+  #     vmImage: "ubuntu-latest"
+  #   steps:
+  #     - template: steps/charts/validate.yaml@cnp-library
+  #       parameters:
+  #         chartName: function
+  #         chartReleaseName: chart-function-ci-servicebus-podidentity-test
+  #         chartNamespace: chart-tests
+  #         helmInstallTimeout: "500"
+  #         valuesFile: ci-values-servicebus-podidentity.yaml
+  #         serviceConnection: ${{ parameters.serviceConnection }}
+  #         aksResourceGroup: ${{ parameters.aksResourceGroup }}
+  #         aksCluster: ${{ parameters.aksCluster }}
 
-  - job: ValidateBlob
-    pool:
-      vmImage: "ubuntu-latest"
-    steps:
-      - template: steps/charts/validate.yaml@cnp-library
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-blob-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-blob.yaml
-          serviceConnection: ${{ parameters.serviceConnection }}
-          aksResourceGroup: ${{ parameters.aksResourceGroup }}
-          aksCluster: ${{ parameters.aksCluster }}
+  # - job: ValidateBlob
+  #   pool:
+  #     vmImage: "ubuntu-latest"
+  #   steps:
+  #     - template: steps/charts/validate.yaml@cnp-library
+  #       parameters:
+  #         chartName: function
+  #         chartReleaseName: chart-function-ci-blob-test
+  #         chartNamespace: chart-tests
+  #         helmInstallTimeout: "500"
+  #         valuesFile: ci-values-blob.yaml
+  #         serviceConnection: ${{ parameters.serviceConnection }}
+  #         aksResourceGroup: ${{ parameters.aksResourceGroup }}
+  #         aksCluster: ${{ parameters.aksCluster }}
 
-  - job: ValidateBlobUsingReleaseName
-    pool:
-      vmImage: "ubuntu-latest"
-    steps:
-      - template: steps/charts/validate.yaml@cnp-library
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-blob-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-blob-release-name.yaml
-          serviceConnection: ${{ parameters.serviceConnection }}
-          aksResourceGroup: ${{ parameters.aksResourceGroup }}
-          aksCluster: ${{ parameters.aksCluster }}
+  # - job: ValidateBlobUsingReleaseName
+  #   pool:
+  #     vmImage: "ubuntu-latest"
+  #   steps:
+  #     - template: steps/charts/validate.yaml@cnp-library
+  #       parameters:
+  #         chartName: function
+  #         chartReleaseName: chart-function-ci-blob-test
+  #         chartNamespace: chart-tests
+  #         helmInstallTimeout: "500"
+  #         valuesFile: ci-values-blob-release-name.yaml
+  #         serviceConnection: ${{ parameters.serviceConnection }}
+  #         aksResourceGroup: ${{ parameters.aksResourceGroup }}
+  #         aksCluster: ${{ parameters.aksCluster }}
 
-  - job: ValidateMixed
-    pool:
-      vmImage: "ubuntu-latest"
-    steps:
-      - template: steps/charts/validate.yaml@cnp-library
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-mixed-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-mixed.yaml
-          serviceConnection: ${{ parameters.serviceConnection }}
-          aksResourceGroup: ${{ parameters.aksResourceGroup }}
-          aksCluster: ${{ parameters.aksCluster }}
+  # - job: ValidateMixed
+  #   pool:
+  #     vmImage: "ubuntu-latest"
+  #   steps:
+  #     - template: steps/charts/validate.yaml@cnp-library
+  #       parameters:
+  #         chartName: function
+  #         chartReleaseName: chart-function-ci-mixed-test
+  #         chartNamespace: chart-tests
+  #         helmInstallTimeout: "500"
+  #         valuesFile: ci-values-mixed.yaml
+  #         serviceConnection: ${{ parameters.serviceConnection }}
+  #         aksResourceGroup: ${{ parameters.aksResourceGroup }}
+  #         aksCluster: ${{ parameters.aksCluster }}
 
   - job: Release
     # Make sure we have a tag to run this job
-    condition: >
-      and(
-          succeeded(),
-          startsWith(variables['Build.SourceBranch'], 'refs/tags/')
-        )
-    dependsOn:
-      - ValidateServiceBus
-      - ValidateBlob
+    # condition: >
+    #   and(
+    #       succeeded(),
+    #       startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+    #     )
+    # dependsOn:
+    #   - ValidateServiceBus
+    #   - ValidateBlob
     pool:
       vmImage: "ubuntu-latest"
     steps:
