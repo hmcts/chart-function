@@ -2,15 +2,15 @@ parameters:
   - name: serviceConnection
     displayName: Service Connection
     type: string
-    default: "DCD-CFTAPPS-DEV" # DCD-CFTAPPS-DEV
+    default: "DCD-CFTAPPS-TEST" # DCD-CFTAPPS-DEV
   - name: aksResourceGroup
     displayName: AKS Resource Group
     type: string
-    default: "cft-preview-01-rg" # cft-preview-00-rg
+    default: "cft-perftest-01-rg" # cft-preview-00-rg
   - name: aksCluster
     displayName: AKS Cluster Name
     type: string
-    default: "cft-preview-01-aks" # cft-preview-00-aks
+    default: "cft-perftest-01-aks" # cft-preview-00-aks
 
 name: chart-function pipeline
 trigger:
