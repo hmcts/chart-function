@@ -15,5 +15,7 @@ triggers:
     subscriptionName: test-subscription
     connection: TEST_ENV # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
     queueLength: 1
+  - type: prometheus
+    url: https://hmcts-funcapp.platform.hmcts.net:8080
 environment:
   TEST_ENV: "test"

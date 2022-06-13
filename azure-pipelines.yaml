@@ -52,6 +52,18 @@ jobs:
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob-release-name.yaml
 
+  - job: ValidateBlob
+    pool:
+      vmImage: 'Ubuntu 16.04'
+    steps:
+      - template: steps/charts/validate.yaml@cnp-library
+        parameters:
+          chartName: function
+          chartReleaseName: chart-function-ci-http-test
+          chartNamespace: chart-tests
+          helmInstallTimeout: "500"
+          valuesFile: ci-values-http.yaml
+
   - job: ValidateMixed
     pool:
       vmImage: 'Ubuntu 16.04'

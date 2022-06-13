@@ -32,6 +32,16 @@ triggers
     blobPrefix: ""
     blobDelimiter: "/"
 ```
+### [HTTP trigger](https://dev.to/anirudhgarg_99/scale-up-and-down-a-http-triggered-function-app-in-kubernetes-using-keda-4m42)
+```helmyaml
+triggers
+  - type: prometheus
+    url: https://hmcts-funcapp.platform.hmcts.net:8080
+    metricName: access_frequency # Default access_frequency
+    threshold: 2 # Default 1
+    requestsPer: 2m # Default every 1 minute
+```
+
 
 ## Pod Identity Auth
 
