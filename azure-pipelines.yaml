@@ -15,65 +15,72 @@ resources:
       name: hmcts/cnp-azuredevops-libraries
       endpoint: 'hmcts'
 
+variables:
+  - name: helmInstallTimeout
+    value: "500"
+  - name: imageName
+    value: 'ubuntu-20.04'
+
+
 jobs:
   - job: ValidateServiceBus
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-servicebus-test
           chartNamespace: chart-tests
-          helmInstallTimeout: "500"
+          helmInstallTimeout: ${{ variables.helmInstallTimeout }}
           valuesFile: ci-values-servicebus.yaml
 
   - job: ValidateBlob
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-blob-test
           chartNamespace: chart-tests
-          helmInstallTimeout: "500"
+          helmInstallTimeout: ${{ variables.helmInstallTimeout }}
           valuesFile: ci-values-blob.yaml
 
   - job: ValidateBlobUsingReleaseName
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-blob-test
           chartNamespace: chart-tests
-          helmInstallTimeout: "500"
+          helmInstallTimeout: ${{ variables.helmInstallTimeout }}
           valuesFile: ci-values-blob-release-name.yaml
 
   - job: ValidateHttp
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-http-test
           chartNamespace: chart-tests
-          helmInstallTimeout: "500"
+          helmInstallTimeout: ${{ variables.helmInstallTimeout }}
           valuesFile: ci-values-http.yaml
 
   - job: ValidateMixed
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-mixed-test
           chartNamespace: chart-tests
-          helmInstallTimeout: "500"
+          helmInstallTimeout: ${{ variables.helmInstallTimeout }}
           valuesFile: ci-values-mixed.yaml
 
   - job: Release
@@ -87,7 +94,7 @@ jobs:
       - ValidateServiceBus
       - ValidateBlob
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/release.yaml@cnp-library
         parameters:
