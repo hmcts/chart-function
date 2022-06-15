@@ -52,7 +52,7 @@ jobs:
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob-release-name.yaml
 
-  - job: ValidateBlob
+  - job: ValidateHttp
     pool:
       vmImage: 'Ubuntu 16.04'
     steps:
