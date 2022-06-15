@@ -18,9 +18,9 @@ spec:
   triggers:
     {{- range .Values.triggers }}
       {{- if eq .type "azure-servicebus" }}
-{{- include "function.http" . | indent 4 }}
-      {{- else if eq .type "prometheus" }}
 {{- include "function.servicebus" . | indent 4 }}
+      {{- else if eq .type "prometheus" }}
+{{- include "function.http" . | indent 4 }}
       {{- else if eq .type "azure-blob" }}
       # work around to save having the triggerAuthName copied in the config for each trigger
       {{- $data := dict "root" $ "trigger" . }}
