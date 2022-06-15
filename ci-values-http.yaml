@@ -1,9 +1,4 @@
 image: hmctspublic.azurecr.io/plum/batch:latest
-triggerAuth:
-  enabled: true
-  create: true
-  nameOverride: "azure-mi-auth-{{ .Values.scaleType }}"
-triggerPodIdentityProvider: "azure"
 triggers:
   - type: prometheus
     url: https://hmcts-funcapp.platform.hmcts.net:8080
