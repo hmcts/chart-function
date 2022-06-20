@@ -1,14 +1,9 @@
 {{/* metadata for an Azure HTTP Trigger */}}
 {{- define "function.http" }}
- - type: prometheus
-    metadata:
-      serverAddress: {{ .url }}
-      metricName: {{ .metricName }}
-      threshold: {{ .threshold }} #Since the threshold is '1' the function app will scale as long as the number of requests/minute > 60.
-      query: sum(rate(http_requests[{{ .requestsPer }}]))
+- type: prometheus
+  metadata:
+    serverAddress: {{ .url }}
+    metricName: {{ default "access_frequency" .metricName }}
+    threshold: {{ default 1 .threshold }} #Since the threshold is '1' the function app will scale as long as the number of requests/minute > 60.
+    query: sum(rate(http_requests[{{ default "1m" .requestsPer }}]))
 {{- end }}
-
-
-     # metricName: {{ default "access_frequency" .metricName }}
-     # threshold: {{ default 1 .threshold }} #Since the threshold is '1' the function app will scale as long as the number of requests/minute > 60.
-     # query: sum(rate(http_requests[{{ default "1m" .requestsPer }}]))
