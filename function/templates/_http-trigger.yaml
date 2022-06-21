@@ -4,6 +4,6 @@
   metadata:
     serverAddress: {{ .url }}
     metricName: {{ default "access_frequency" .metricName }}
-    threshold: {{ default 1 .threshold }} #Since the threshold is '1' the function app will scale as long as the number of requests/minute > 60.
+    threshold: {{ default "1" .threshold }} #Since the threshold is '1' the function app will scale as long as the number of requests/minute > 60.
     query: sum(rate(http_requests[{{ default "1m" .requestsPer }}]))
 {{- end }}
