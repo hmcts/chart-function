@@ -59,17 +59,17 @@ jobs:
           helmInstallTimeout: ${{ variables.helmInstallTimeout }}
           valuesFile: ci-values-blob-release-name.yaml
 
-  - job: ValidateHttp
+  - job: ValidatePrometheus
     pool:
       vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
           chartName: function
-          chartReleaseName: chart-function-ci-http-test
+          chartReleaseName: chart-function-ci-prometheus-test
           chartNamespace: chart-tests
           helmInstallTimeout: ${{ variables.helmInstallTimeout }}
-          valuesFile: ci-values-http.yaml
+          valuesFile: ci-values-prometheus.yaml
 
   - job: ValidateMixed
     pool:
