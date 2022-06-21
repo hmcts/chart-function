@@ -37,9 +37,9 @@ triggers
 triggers
   - type: prometheus
     url: https://hmcts-funcapp.platform.hmcts.net:8080
-    metricName: access_frequency # Default access_frequency
-    threshold: 2 # Default 1
-    requestsPer: 2m # Default every 1 minute
+    metricName: "access_frequency" # Default access_frequency
+    threshold: "2" # Default 1
+    requestsPer: "2m" # Default every 1 minute
 ```
 
 
