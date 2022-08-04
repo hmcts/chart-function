@@ -9,6 +9,12 @@
     topicName: {{ .topicName }}
     subscriptionName: {{ .subscriptionName }}
     {{- end }}
+    {{- if .connection }}
     connection: {{ .connection }}
+    {{- end }}
     queueLength: {{ .queueLength | quote }}
+  {{- if .root.Values.triggerAuth.enabled }}
+  authenticationRef:
+{{- include "function.trigger-auth-name" .root | indent 4 }}
+  {{- end }}
 {{- end }}
