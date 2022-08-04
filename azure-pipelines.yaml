@@ -18,7 +18,7 @@ resources:
 jobs:
   - job: ValidateServiceBus
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -30,7 +30,7 @@ jobs:
 
   - job: ValidateBlob
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -42,7 +42,7 @@ jobs:
 
   - job: ValidateBlobUsingReleaseName
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -54,7 +54,7 @@ jobs:
 
   - job: ValidateMixed
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -75,7 +75,7 @@ jobs:
       - ValidateServiceBus
       - ValidateBlob
     pool:
-      vmImage: 'Ubuntu 16.04'
+      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/release.yaml@cnp-library
         parameters:
