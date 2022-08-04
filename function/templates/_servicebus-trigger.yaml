@@ -2,6 +2,9 @@
 {{- define "function.servicebus" }}
 - type: azure-servicebus
   metadata:
+    {{- if .serviceBusNamespace }}
+    namespace: {{ .serviceBusNamespace }}
+    {{- end }}
     {{- if .queueName }}
     queueName: {{ .queueName }}
     {{- end }}

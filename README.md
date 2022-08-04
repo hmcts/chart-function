@@ -35,8 +35,11 @@ triggers
 
 ## Pod Identity Auth
 
-Currently only supported by the Blob Storage Trigger. Simply supply the `accountName` value of the Storage Account which 
-the Blob Store is in and leave the `connection` value empty.
+Supported for both Blob Storage Trigger & Service Bus Trigger.
+
+Blob Storage Trigger - Supply the `accountName` value of the Storage Account which the Blob Store is in and leave the `connection` value empty.
+
+Service Bus Trigger - Supply `serviceBusNamespace` value of the Service Bus namespace name, leave connection empty.
 
 If multiple services need to reference the same Trigger Auth for some reason, use the `nameOverride` value like this:
 ```helmyaml
