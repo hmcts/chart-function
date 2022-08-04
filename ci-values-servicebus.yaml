@@ -1,4 +1,9 @@
 image: hmctspublic.azurecr.io/plum/batch:latest
+triggerAuth:
+  enabled: true
+  create: true
+  nameOverride: "azure-mi-auth-sbus"
+triggerPodIdentityProvider: "azure"
 triggers:
   - type: azure-servicebus
     # Required: queueName OR topicName and subscriptionName
