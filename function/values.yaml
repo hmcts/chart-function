@@ -27,6 +27,9 @@ maxReplicaCount: 5 # Optional. Default: 5
 triggerAuth:
   create: true
   enabled: false
-  nameOverride: ""
+  nameOverride: "bookings"
 triggerPodIdentityProvider: "azure" # none | azure | gcp | spiffe | aws-eks | aws-kiam
-triggers: []
+triggers:
+- type: azure-servicebus 
+  queueName: booking
+  queueLength: 5
