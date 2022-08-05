@@ -14,11 +14,12 @@ resources:
       ref: refs/heads/master
       name: hmcts/cnp-azuredevops-libraries
       endpoint: 'hmcts'
+      
+pool:
+  vmImage: 'ubuntu-latest'
 
 jobs:
   - job: ValidateServiceBus
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -29,8 +30,6 @@ jobs:
           valuesFile: ci-values-servicebus.yaml
 
   - job: ValidateBlob
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -41,8 +40,6 @@ jobs:
           valuesFile: ci-values-blob.yaml
 
   - job: ValidateBlobUsingReleaseName
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -53,8 +50,6 @@ jobs:
           valuesFile: ci-values-blob-release-name.yaml
 
   - job: ValidateMixed
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -74,8 +69,6 @@ jobs:
     dependsOn:
       - ValidateServiceBus
       - ValidateBlob
-    pool:
-      vmImage: 'ubuntu-latest'
     steps:
       - template: steps/charts/release.yaml@cnp-library
         parameters:
