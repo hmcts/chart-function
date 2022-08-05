@@ -13,7 +13,7 @@
     blobPrefix: {{ .trigger.blobPrefix | default "" | quote }}
     blobDelimiter: {{ .trigger.blobDelimiter | default "/" }}
   {{- if .root.Values.triggerAuth.enabled }}
-  authenticationRef:
+  authenticationRef: # authenticationRef would need either podIdentity or define a connection parameter
 {{- include "function.trigger-auth-name" .root | indent 4 }}
   {{- end }}
 {{- end }}
