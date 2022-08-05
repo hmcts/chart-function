@@ -18,6 +18,7 @@ spec:
   triggers:
     {{- range .Values.triggers }}
       {{- if eq .type "azure-servicebus" }}
+      {{- $data := dict "root" $ "trigger" . }}
 {{- include "function.servicebus" . | indent 4 }}
       {{- else if eq .type "azure-blob" }}
       # work around to save having the triggerAuthName copied in the config for each trigger
