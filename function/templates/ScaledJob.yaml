@@ -6,6 +6,8 @@ metadata:
 spec:
   pollingInterval: {{ .Values.pollingInterval }}
   maxReplicaCount: {{ .Values.maxReplicaCount }}
+  successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit }}
   jobTargetRef:
     parallelism: {{ .Values.job.parallelism }}
     completions: {{ .Values.job.completions }}
