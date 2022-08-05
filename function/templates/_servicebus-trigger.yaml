@@ -16,8 +16,8 @@
     connection: {{ .connection }}
     {{- end }}
     queueLength: {{ .queueLength | quote }}
-  {{- if .triggerAuth.enabled }}
+  {{- if $.Values.triggerAuth.enabled }}
   authenticationRef:
-{{- include "function.trigger-auth-name" | indent 4 }}
+{{- include "function.trigger-auth-name"  | indent 4 }}
   {{- end }}
 {{- end }}
