@@ -13,7 +13,7 @@ triggers:
     queueName: test-queue
     #topicName: test-topic
     #subscriptionName: test-subscription
-    connection: TEST_ENV # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
+    connectionFromEnv: TEST_ENV # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
     messageCount: 1
 environment:
   TEST_ENV: "test"
