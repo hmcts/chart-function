@@ -1,17 +1,28 @@
+# using Pod Identity.
 image: hmctspublic.azurecr.io/plum/batch:latest
 triggerAuth:
   create: true
   enabled: true
-  nameOverride: "azure-mi-auth-sbus"
 triggerPodIdentityProvider: "azure"
 triggers:
 - type: azure-servicebus
   serviceBusName: "test-sbus" # required if triggerAuth.Enabled = true
-  # Required: queueName OR topicName and subscriptionName
+  # required: queueName OR topicName & subscriptionName
   queueName: "test-queue"
   #topicName: test-topic
   #subscriptionName: test-subscription
   messageCount: 5
-  # ONE of the below are required if triggerAuth.Enabled = false 
-  #connection: Conection_String  # this must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
-  #connectionFromEnv: Connection_From_Environment_Variable
+
+# using Connection String.
+# image: hmctspublic.azurecr.io/plum/batch:latest
+# triggers:
+# - type: azure-servicebus
+#   # required: queueName OR topicName & subscriptionName
+#   queueName: "test-queue"
+#   #topicName: test-topic
+#   #subscriptionName: test-subscription
+#   # required if triggerAuth.Enabled = false 
+#   connectionFromEnv: 'SERVICEBUS_CONNECTIONSTRING'  # this must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
+#   messageCount: 5
+# environment:
+#   SERVICEBUS_CONNECTIONSTRING: "<enter connection string>" # Queue SAS Connection String

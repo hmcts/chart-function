@@ -12,11 +12,7 @@
     subscriptionName: {{ .trigger.subscriptionName }}
     {{- end }}
     {{- if not .root.Values.triggerAuth.enabled }}
-    {{- if .trigger.connection }}
-    connection: {{ .trigger.connection }}
-    {{- else }}
     connectionFromEnv: {{ .trigger.connectionFromEnv }}
-    {{- end }}
     {{- end }}
     messageCount: {{ .trigger.messageCount | quote }}
   {{- if .root.Values.triggerAuth.enabled }}
