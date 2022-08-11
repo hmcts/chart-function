@@ -2,13 +2,21 @@
 {{- define "function.servicebus" }}
 - type: azure-servicebus
   metadata:
-    {{- if .queueName }}
-    queueName: {{ .queueName }}
+    {{- if .root.Values.triggerAuth.enabled }}
+    namespace: {{ .trigger.serviceBusName }}
     {{- end }}
-    {{- if .topicName }}
-    topicName: {{ .topicName }}
-    subscriptionName: {{ .subscriptionName }}
+    {{- if .trigger.queueName }}
+    queueName: {{ .trigger.queueName }}
+    {{- else }}
+    topicName: {{ .trigger.topicName }}
+    subscriptionName: {{ .trigger.subscriptionName }}
     {{- end }}
-    connection: {{ .connection }}
-    queueLength: {{ .queueLength | quote }}
+    {{- if not .root.Values.triggerAuth.enabled }}
+    connectionFromEnv: {{ .trigger.connectionFromEnv }}
+    {{- end }}
+    messageCount: {{ .trigger.messageCount | quote }}
+  {{- if .root.Values.triggerAuth.enabled }}
+  authenticationRef:
+{{- include "function.trigger-auth-name" .root | indent 4 }}
+  {{- end }}
 {{- end }}
