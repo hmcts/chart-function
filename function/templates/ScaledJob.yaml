@@ -1,4 +1,4 @@
-{{ -if eq .Values.scaledType "Job" }}
+{{- if eq .Values.scaleType "Job" }}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledJob
 metadata:

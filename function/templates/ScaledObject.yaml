@@ -1,4 +1,4 @@
-{{ -if eq .Values.scaledType "Object" }}
+{{- if eq .Values.scaleType "Object" }}
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:

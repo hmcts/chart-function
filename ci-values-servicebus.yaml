@@ -1,6 +1,6 @@
 # using Pod Identity.
 image: hmctspublic.azurecr.io/plum/batch:latest
-scaledType: Job
+scaleType: Job
 triggerAuth:
   create: true
   enabled: true
