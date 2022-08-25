@@ -15,9 +15,11 @@ spec:
   idleReplicaCount: {{ .Values.object.idleReplicaCount }}
   minReplicaCount: {{ .Values.object.minReplicaCount }}
   maxReplicaCount: {{ .Values.object.maxReplicaCount }}
+  {{- if or .Values.object.failureThreshold .Values.object.replicas }}
   fallback:
     failureThreshold: {{ .Values.object.failureThreshold }}
     replicas: {{ .Values.object.replicas }}
+  {{- end }}
   triggers:
     {{- range .Values.triggers }}
       {{- $data := dict "root" $ "trigger" . }}
