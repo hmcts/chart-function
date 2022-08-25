@@ -3,7 +3,7 @@ scaleType: Job
 triggerAuth:
   enabled: true
   create: true
-  nameOverride: "azure-mi-auth-{{ .Values.scaleType }}"
+  nameOverride: "azure-mi-auth-{{ lower .Values.scaleType }}"
   triggerPodIdentityProvider: "azure"
 triggers:
   - type: azure-blob
