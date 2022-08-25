@@ -6,5 +6,5 @@ metadata:
 {{- ( include "hmcts.labels.v2" . ) | indent 2 }}
 spec:
   podIdentity:
-    provider: {{ .Values.triggerPodIdentityProvider }} # none | azure | gcp | spiffe | aws-eks | aws-kiam
+    provider: {{ .Values.triggerAuth.triggerPodIdentityProvider }} # none | azure | gcp | spiffe | aws-eks | aws-kiam
 {{- end }}

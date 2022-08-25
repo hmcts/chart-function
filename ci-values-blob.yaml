@@ -1,9 +1,10 @@
 image: hmctspublic.azurecr.io/plum/batch:latest
+scaledType: Job
 triggerAuth:
   enabled: true
   create: true
   nameOverride: "azure-mi-auth-{{ .Values.scaleType }}"
-triggerPodIdentityProvider: "azure"
+  triggerPodIdentityProvider: "azure"
 triggers:
   - type: azure-blob
     # Required: blobContainerName and connection

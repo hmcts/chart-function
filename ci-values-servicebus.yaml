@@ -1,9 +1,10 @@
 # using Pod Identity.
 image: hmctspublic.azurecr.io/plum/batch:latest
+scaledType: Job
 triggerAuth:
   create: true
   enabled: true
-triggerPodIdentityProvider: "azure"
+  triggerPodIdentityProvider: "azure"
 triggers:
 - type: azure-servicebus
   serviceBusName: "test-sbus" # required if triggerAuth.Enabled = true
