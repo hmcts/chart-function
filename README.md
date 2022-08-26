@@ -1,14 +1,34 @@
 # chart-function
 
-Basic helm chart for running functions using [KEDA](https://keda.sh/)
+Basic helm chart for running functions using [KEDA.](https://keda.sh/)
 
-## Supported scale types
+## Breaking Changes
 
-It currently supports only [scaling jobs](https://keda.sh/docs/1.4/concepts/scaling-jobs/).
+**v2.2.0**:
+``` yaml
+scaleType: Job | Object # must be specified due to now supporting ScaledJob & ScaledObject
+```
 
-## Supported triggers
+the following value has adjusted:
+```yaml
+triggerPodIdentityProvider: Azure
+```
+becomes:
+```yaml
+triggerAuth:
+  triggerPodIdentityProvider: Azure
+```
 
-It currently supports below triggers
+## Supported Scale Types
+
+[ScaledJob](https://keda.sh/docs/1.4/concepts/scaling-jobs/).
+
+[ScaledObject](https://keda.sh/docs/2.8/concepts/scaling-deployments/).
+
+## Supported Triggers
+
+It currently supports below triggers:
+
 ### [Azure service bus trigger](https://keda.sh/docs/1.4/scalers/azure-service-bus/)
 ```helmyaml
 triggers

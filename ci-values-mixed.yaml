@@ -1,4 +1,5 @@
 image: hmctspublic.azurecr.io/plum/batch:latest
+scaleType: Job
 triggers:
   - type: azure-blob
     # Required: blobContainerName and connection

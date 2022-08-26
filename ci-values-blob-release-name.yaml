@@ -1,8 +1,9 @@
 image: hmctspublic.azurecr.io/plum/batch:latest
+scaleType: Job
 triggerAuth:
   enabled: true
   create: true
-triggerPodIdentityProvider: "azure"
+  triggerPodIdentityProvider: "azure"
 triggers:
   - type: azure-blob
     # Required: blobContainerName and connection
