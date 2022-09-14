@@ -1,29 +1,34 @@
-apiVersion: keda.k8s.io/v1alpha1
+{{- if eq .Values.scaleType "Object" }}
+apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
   name: {{ template "hmcts.releasename.v2" . }}
   {{- ( include "hmcts.labels.v2" . ) | indent 2 }}
 spec:
-  scaleType: {{ .Values.scaleType }}
-  pollingInterval: {{ .Values.pollingInterval }}
-  cooldownPeriod:  {{ .Values.cooldownPeriod }}
-  minReplicaCount: {{ .Values.minReplicaCount }}
-  maxReplicaCount: {{ .Values.maxReplicaCount }}
-  jobTargetRef:
-    parallelism: {{ .Values.job.parallelism }}
-    completions: {{ .Values.job.completions }}
-    activeDeadlineSeconds: {{ .Values.job.activeDeadlineSeconds }}
-    backoffLimit: {{ .Values.job.backoffLimit }}
-{{ include "hmcts.podtemplate.v2.tpl" . | indent 4 }}
+  scaleTargetRef:
+    apiVersion: {{ .Values.object.apiVersion }}
+    kind: {{ .Values.object.kind }}
+    name: {{ .Values.object.name }}
+    envSourceContainerName: {{ .Values.object.envSourceContainerName }}
+  pollingInterval: {{ .Values.object.pollingInterval }}
+  cooldownPeriod: {{ .Values.object.cooldownPeriod }}
+  idleReplicaCount: {{ .Values.object.idleReplicaCount }}
+  minReplicaCount: {{ .Values.object.minReplicaCount }}
+  maxReplicaCount: {{ .Values.object.maxReplicaCount }}
+  {{- if or .Values.object.failureThreshold .Values.object.replicas }}
+  fallback:
+    failureThreshold: {{ .Values.object.failureThreshold }}
+    replicas: {{ .Values.object.replicas }}
+  {{- end }}
   triggers:
     {{- range .Values.triggers }}
+      {{- $data := dict "root" $ "trigger" . }}
       {{- if eq .type "azure-servicebus" }}
 {{- include "function.servicebus" . | indent 4 }}
       {{- else if eq .type "prometheus" }}
 {{- include "function.prometheus" . | indent 4 }}
       {{- else if eq .type "azure-blob" }}
-      # work around to save having the triggerAuthName copied in the config for each trigger
-      {{- $data := dict "root" $ "trigger" . }}
 {{- include "function.blob" $data | indent 4 }}
       {{- end }}
     {{- end }}
+{{- end }}

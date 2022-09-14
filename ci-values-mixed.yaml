@@ -1,4 +1,5 @@
 image: hmctspublic.azurecr.io/plum/batch:latest
+scaleType: Job
 triggers:
   - type: azure-blob
     # Required: blobContainerName and connection
@@ -10,11 +11,11 @@ triggers:
     blobDelimiter: "/" # Optional. Delimiter for identifying the blob Prefix. Default: "/"
   - type: azure-servicebus
     # Required: queueName OR topicName and subscriptionName
-    queueName:
-    topicName: test-topic
-    subscriptionName: test-subscription
-    connection: TEST_ENV # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
-    queueLength: 1
+    queueName: test-queue
+    #topicName: test-topic
+    #subscriptionName: test-subscription
+    connectionFromEnv: TEST_ENV # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
+    messageCount: 1
   - type: prometheus
     url: https://hmcts-funcapp.platform.hmcts.net:8080
 environment:

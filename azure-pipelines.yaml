@@ -14,6 +14,9 @@ resources:
       ref: refs/heads/master
       name: hmcts/cnp-azuredevops-libraries
       endpoint: 'hmcts'
+      
+pool:
+  vmImage: 'ubuntu-latest'
 
 variables:
   - name: helmInstallTimeout
@@ -24,8 +27,6 @@ variables:
 
 jobs:
   - job: ValidateServiceBus
-    pool:
-      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -36,8 +37,6 @@ jobs:
           valuesFile: ci-values-servicebus.yaml
 
   - job: ValidateBlob
-    pool:
-      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -48,8 +47,6 @@ jobs:
           valuesFile: ci-values-blob.yaml
 
   - job: ValidateBlobUsingReleaseName
-    pool:
-      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -72,8 +69,6 @@ jobs:
           valuesFile: ci-values-prometheus.yaml
 
   - job: ValidateMixed
-    pool:
-      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
@@ -93,8 +88,6 @@ jobs:
     dependsOn:
       - ValidateServiceBus
       - ValidateBlob
-    pool:
-      vmImage: ${{ variables.imageName }}
     steps:
       - template: steps/charts/release.yaml@cnp-library
         parameters:
