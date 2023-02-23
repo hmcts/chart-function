@@ -52,6 +52,17 @@ triggers
     blobPrefix: ""
     blobDelimiter: "/"
 ```
+### [Azure pipelines trigger](https://keda.sh/docs/2.9/scalers/azure-pipelines/#trigger-specification)
+```helmyaml
+triggers
+  - type: azure-pipelines
+      poolName: "{agentPoolName}"
+      poolID: "{agentPoolId}"
+      organizationURLFromEnv: "AZP_URL"
+      personalAccessTokenFromEnv: "AZP_TOKEN"
+      targetPipelinesQueueLength: "1"
+      activationTargetPipelinesQueueLength: "0"
+```
 
 ## Pod Identity Auth
 
