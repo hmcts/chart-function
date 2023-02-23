@@ -1,0 +1,15 @@
+{{/* metadata for an Azure Devops pipeline Trigger */}}
+{{- define "function.azure-pipelines" }}
+- type: azure-pipelines
+  metadata:
+    poolName: {{ .trigger.poolName }}
+    poolID: {{ .trigger.poolID }}
+    organizationURLFromEnv: {{ .trigger.organizationURLFromEnv | default "AZP_URL" | quote }}
+    personalAccessTokenFromEnv: {{ .trigger.organizationURLFromEnv | default "AZP_TOKEN" | quote }}
+    targetPipelinesQueueLength: {{ .trigger.organizationURLFromEnv | default "1" | quote }}
+    activationTargetPipelinesQueueLength: {{ .trigger.activationTargetPipelinesQueueLength | default "0" | quote }}
+  {{- if .root.Values.triggerAuth.enabled }}
+  authenticationRef: # authenticationRef would need either podIdentity or define a connection parameter
+{{- include "function.trigger-auth-name" .root | indent 4 }}
+  {{- end }}
+{{- end }}
