@@ -5,8 +5,8 @@
     poolName: {{ .trigger.poolName }}
     poolID: {{ .trigger.poolID }}
     organizationURLFromEnv: {{ .trigger.organizationURLFromEnv | default "AZP_URL" | quote }}
-    personalAccessTokenFromEnv: {{ .trigger.organizationURLFromEnv | default "AZP_TOKEN" | quote }}
-    targetPipelinesQueueLength: {{ .trigger.organizationURLFromEnv | default "1" | quote }}
+    personalAccessTokenFromEnv: {{ .trigger.personalAccessTokenFromEnv | default "AZP_TOKEN" | quote }}
+    targetPipelinesQueueLength: {{ .trigger.targetPipelinesQueueLength | default "1" | quote }}
     activationTargetPipelinesQueueLength: {{ .trigger.activationTargetPipelinesQueueLength | default "0" | quote }}
   {{- if .root.Values.triggerAuth.enabled }}
   authenticationRef: # authenticationRef would need either podIdentity or define a connection parameter
