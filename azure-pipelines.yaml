@@ -58,7 +58,7 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-mixed.yaml
-  - job: ValidateMixed
+  - job: ValidateAzuredevopstrigger
     steps:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
