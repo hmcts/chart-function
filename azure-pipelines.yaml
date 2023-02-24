@@ -44,7 +44,7 @@ jobs:
       - template: steps/charts/validate.yaml@cnp-library
         parameters:
           chartName: function
-          chartReleaseName: chart-function-ci-blob-test
+          chartReleaseName: chart-function-ci-blob-rn-test
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob-release-name.yaml
@@ -58,6 +58,15 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-mixed.yaml
+  - job: ValidateAzuredevopstrigger
+    steps:
+      - template: steps/charts/validate.yaml@cnp-library
+        parameters:
+          chartName: function
+          chartReleaseName: chart-function-ci-azure-pipelines-test
+          chartNamespace: chart-tests
+          helmInstallTimeout: "500"
+          valuesFile: ci-values-azure-pipelines.yaml
 
   - job: Release
     # Make sure we have a tag to run this job
