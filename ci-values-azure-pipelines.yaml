@@ -2,7 +2,6 @@ image: hmctspublic.azurecr.io/plum/batch:latest
 scaleType: Job
 triggers:
   - type: azure-pipelines
-    poolName: "test-ci-pipeline"
     poolID: "22"
     organizationURLFromEnv: "AZP_URL"
     personalAccessTokenFromEnv: "AZP_TOKEN"
