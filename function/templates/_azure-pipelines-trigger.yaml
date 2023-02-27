@@ -2,7 +2,9 @@
 {{- define "function.azure-pipelines" }}
 - type: azure-pipelines
   metadata:
+  {{- if .trigger.poolName }}
     poolName: {{ .trigger.poolName | quote }}
+  {{- end }}
     poolID: {{ .trigger.poolID | quote }}
     organizationURLFromEnv: {{ .trigger.organizationURLFromEnv | default "AZP_URL" | quote }}
     personalAccessTokenFromEnv: {{ .trigger.personalAccessTokenFromEnv | default "AZP_TOKEN" | quote }}
