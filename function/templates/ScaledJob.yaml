@@ -9,6 +9,9 @@ spec:
   maxReplicaCount: {{ .Values.maxReplicaCount }}
   successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit }}
   failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit }}
+  rollout:
+    strategy: {{ .Values.rollout.strategy }}
+    propagationPolicy: {{ .Values.rollout.strategy }}
   jobTargetRef:
     parallelism: {{ .Values.job.parallelism }}
     completions: {{ .Values.job.completions }}
