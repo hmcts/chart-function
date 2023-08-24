@@ -1,0 +1,8 @@
+{{/* metadata for a postgres Trigger */}}
+{{- define "function.postgres" }}
+- type: postgres
+  metadata:
+    connectionFromEnv: {{ .trigger.connectionFromEnv }}
+    query: {{ .trigger.query }}
+    targetQueryValue: {{ .trigger.targetQueryValue | quote }}
+{{- end }}

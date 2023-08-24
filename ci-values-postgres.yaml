@@ -1,0 +1,9 @@
+image: hmctspublic.azurecr.io/plum/batch:latest
+scaleType: Job
+triggers:
+  - type: postgres
+    connectionFromEnv: 'DB_CONNECTION_STRING'
+    query: "SELECT count(*) FROM requests WHERE status = 'new'"
+    targetQueryValue: "0.9"
+environment:
+  DB_CONNECTION_STRING: "<db_connection_string>"

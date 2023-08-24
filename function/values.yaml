@@ -33,3 +33,5 @@ triggers: []
 rollout:
   strategy: gradual # Default strategy deletes the running jobs when the job spec changes
   propagationPolicy: background
+scalingStrategy:
+  strategy: "default" # Optional. Default: default. Which Scaling Strategy to use. 
