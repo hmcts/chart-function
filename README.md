@@ -63,6 +63,14 @@ triggers
       targetPipelinesQueueLength: "1"
       activationTargetPipelinesQueueLength: "0"
 ```
+### [Postgres trigger](https://keda.sh/docs/2.11/scalers/postgresql/)
+```helmyaml
+triggers
+  - type: postgres
+    connectionFromEnv: DB_CONNECTION_STRING
+    query: "SELECT count(*) FROM queue WHERE status = 'NEW'"
+    targetQueryValue: "1.1"
+```
 
 ## Pod Identity Auth
 
