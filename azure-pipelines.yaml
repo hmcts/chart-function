@@ -67,6 +67,15 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-azure-pipelines.yaml
+  - job: ValidatePostgrestrigger
+    steps:
+      - template: steps/charts/validate.yaml@cnp-library
+        parameters:
+          chartName: function
+          chartReleaseName: chart-function-ci-postgres-test
+          chartNamespace: chart-tests
+          helmInstallTimeout: "500"
+          valuesFile: ci-values-postgres.yaml
 
   - job: Release
     # Make sure we have a tag to run this job

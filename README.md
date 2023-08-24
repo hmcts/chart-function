@@ -25,6 +25,13 @@ triggerAuth:
 
 [ScaledObject](https://keda.sh/docs/2.8/concepts/scaling-deployments/).
 
+## Supported Scaling Strategies for ScaledJob
+
+It currently supports the "default" or "accurate" scaling strategy, to use "accurate" set the following
+``` yaml
+scalingStrategy: accurate
+```
+
 ## Supported Triggers
 
 It currently supports below triggers:
@@ -62,6 +69,14 @@ triggers
       personalAccessTokenFromEnv: "AZP_TOKEN"
       targetPipelinesQueueLength: "1"
       activationTargetPipelinesQueueLength: "0"
+```
+### [Postgres trigger](https://keda.sh/docs/2.11/scalers/postgresql/)
+```helmyaml
+triggers
+  - type: postgres
+    connectionFromEnv: DB_CONNECTION_STRING
+    query: "SELECT count(*) FROM queue WHERE status = 'NEW'"
+    targetQueryValue: "1.1"
 ```
 
 ## Pod Identity Auth

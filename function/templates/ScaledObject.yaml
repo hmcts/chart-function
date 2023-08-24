@@ -29,6 +29,8 @@ spec:
 {{- include "function.blob" $data | indent 4 }}
       {{- else if eq .type "azure-pipelines" }}
 {{- include "function.azure-pipelines" $data | indent 4 }}
+      {{- else if eq .type "postgres" }}
+{{- include "function.postgres" $data | indent 4 }}
       {{- end }}
     {{- end }}
 {{- end }}

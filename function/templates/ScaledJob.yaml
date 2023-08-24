@@ -12,6 +12,10 @@ spec:
   rollout:
     strategy: {{ .Values.rollout.strategy }}
     propagationPolicy: {{ .Values.rollout.strategy }}
+{{- if eq .Values.scalingStrategy "accurate" }}
+  scalingStrategy:
+    strategy: {{ .Values.scalingStrategy }}
+{{- end }}
   jobTargetRef:
     parallelism: {{ .Values.job.parallelism }}
     completions: {{ .Values.job.completions }}
@@ -26,7 +30,9 @@ spec:
       {{- else if eq .type "azure-blob" }}
 {{- include "function.blob" $data | indent 4 }}
       {{- else if eq .type "azure-pipelines" }}
-  {{- include "function.azure-pipelines" $data | indent 4 }}
+{{- include "function.azure-pipelines" $data | indent 4 }}
+      {{- else if eq .type "postgres" }}
+{{- include "function.postgres" $data | indent 4 }}
       {{- end }}
     {{- end }}
 {{- end }}
