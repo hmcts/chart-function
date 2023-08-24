@@ -25,6 +25,13 @@ triggerAuth:
 
 [ScaledObject](https://keda.sh/docs/2.8/concepts/scaling-deployments/).
 
+## Supported Scaling Strategies for ScaledJob
+
+It currently supports the "default" or "accurate" scaling strategy, to use "accurate" set the following
+``` yaml
+scalingStrategy: accurate
+```
+
 ## Supported Triggers
 
 It currently supports below triggers:

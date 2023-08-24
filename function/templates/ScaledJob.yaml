@@ -12,8 +12,10 @@ spec:
   rollout:
     strategy: {{ .Values.rollout.strategy }}
     propagationPolicy: {{ .Values.rollout.strategy }}
+{{- if eq .Values.scalingStrategy "accurate" }}
   scalingStrategy:
-    strategy: {{ .Values.rollout.strategy }}
+    strategy: {{ .Values.scalingStrategy }}
+{{- end }}
   jobTargetRef:
     parallelism: {{ .Values.job.parallelism }}
     completions: {{ .Values.job.completions }}
