@@ -28,7 +28,7 @@ triggerAuth:
   create: true
   enabled: false
   nameOverride: ""
-triggerPodIdentityProvider: "azure" # none | azure | gcp | spiffe | aws-eks | aws-kiam
+triggerPodIdentityProvider: "azure-workload" # none | azure | gcp | spiffe | aws-eks | aws-kiam
 triggers: []
 rollout:
   strategy: gradual # Default strategy deletes the running jobs when the job spec changes
