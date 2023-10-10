@@ -15,6 +15,7 @@ global:
   enableKeyVaults: false
   environment: prod
 scaleType: job
+saEnabled: true
 job:
   parallelism: 1 # [max number of desired pods](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#controlling-parallelism)
   completions: 1 # [desired number of successfully finished pods](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#controlling-parallelism)
