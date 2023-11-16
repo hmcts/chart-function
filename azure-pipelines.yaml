@@ -9,7 +9,7 @@ pr:
       - master
 resources:
   repositories:
-    - repository: cnp-library
+    - repository: cnp-azuredevops-libraries
       type: github
       ref: refs/heads/master
       name: hmcts/cnp-azuredevops-libraries
@@ -21,7 +21,7 @@ pool:
 jobs:
   - job: ValidateServiceBus
     steps:
-      - template: steps/charts/validate.yaml@cnp-library
+      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-servicebus-test
@@ -31,7 +31,7 @@ jobs:
 
   - job: ValidateBlob
     steps:
-      - template: steps/charts/validate.yaml@cnp-library
+      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-blob-test
@@ -41,7 +41,7 @@ jobs:
 
   - job: ValidateBlobUsingReleaseName
     steps:
-      - template: steps/charts/validate.yaml@cnp-library
+      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-blob-rn-test
@@ -51,7 +51,7 @@ jobs:
 
   - job: ValidateMixed
     steps:
-      - template: steps/charts/validate.yaml@cnp-library
+      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-mixed-test
@@ -60,7 +60,7 @@ jobs:
           valuesFile: ci-values-mixed.yaml
   - job: ValidateAzuredevopstrigger
     steps:
-      - template: steps/charts/validate.yaml@cnp-library
+      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-azure-pipelines-test
@@ -69,7 +69,7 @@ jobs:
           valuesFile: ci-values-azure-pipelines.yaml
   - job: ValidatePostgrestrigger
     steps:
-      - template: steps/charts/validate.yaml@cnp-library
+      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
         parameters:
           chartName: function
           chartReleaseName: chart-function-ci-postgres-test
@@ -88,7 +88,7 @@ jobs:
       - ValidateServiceBus
       - ValidateBlob
     steps:
-      - template: steps/charts/release.yaml@cnp-library
+      - template: steps/charts/release.yaml@cnp-azuredevops-libraries
         parameters:
           chartName: function
           chartReleaseName: chart-function
