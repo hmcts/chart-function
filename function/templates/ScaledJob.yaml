@@ -2,7 +2,7 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledJob
 metadata:
-  name: {{ template "hmcts.releasename.v2" . }}
+  name: {{ .Values.name }}
   {{- ( include "hmcts.labels.v2" . ) | indent 2 }}
 spec:
   pollingInterval: {{ .Values.pollingInterval }}
