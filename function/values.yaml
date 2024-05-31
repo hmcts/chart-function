@@ -1,5 +1,4 @@
 useInterpodAntiAffinity: false
-name: azure-devops-agent-test
 memoryRequests: 256Mi
 cpuRequests: 250m
 memoryLimits: 1Gi
