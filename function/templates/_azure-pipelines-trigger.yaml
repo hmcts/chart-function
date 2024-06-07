@@ -7,7 +7,6 @@
   {{- end }}
     poolID: {{ .trigger.poolID | quote }}
     organizationURLFromEnv: {{ .trigger.organizationURLFromEnv | default "AZP_URL" | quote }}
-    #personalAccessTokenFromEnv: {{ .trigger.personalAccessTokenFromEnv | default "AZP_TOKEN" | quote }}
     targetPipelinesQueueLength: {{ .trigger.targetPipelinesQueueLength | default "1" | quote }}
     activationTargetPipelinesQueueLength: {{ .trigger.activationTargetPipelinesQueueLength | default "0" | quote }}
   {{- if .root.Values.triggerAuth.enabled }}
