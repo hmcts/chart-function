@@ -66,7 +66,6 @@ triggers
       poolName: "{agentPoolName}"
       poolID: "{agentPoolId}"
       organizationURLFromEnv: "AZP_URL"
-      personalAccessTokenFromEnv: "AZP_TOKEN"
       targetPipelinesQueueLength: "1"
       activationTargetPipelinesQueueLength: "0"
 ```
