@@ -4,7 +4,6 @@ triggers:
   - type: azure-pipelines
     poolID: "22"
     organizationURLFromEnv: "AZP_URL"
-    personalAccessTokenFromEnv: "AZP_TOKEN"
     targetPipelinesQueueLength: "1"
     activationTargetPipelinesQueueLength: "5"
 environment:
