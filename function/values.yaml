@@ -14,7 +14,7 @@ dnsConfig:
 global:
   enableKeyVaults: false
   environment: prod
-scaleType: job
+scaleType: Job
 saEnabled: true
 job:
   parallelism: 1 # [max number of desired pods](https://kubernetes.io/docs/concepts/workloads/controllers/jobs-run-to-completion/#controlling-parallelism)
