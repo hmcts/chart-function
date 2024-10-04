@@ -11,7 +11,7 @@ resources:
   repositories:
     - repository: cnp-azuredevops-libraries
       type: github
-      ref: refs/heads/master
+      ref: convert-to-helm3-command
       name: hmcts/cnp-azuredevops-libraries
       endpoint: 'hmcts'
       
@@ -79,11 +79,11 @@ jobs:
 
   - job: Release
     # Make sure we have a tag to run this job
-    condition: >
-      and(
-          succeeded(),
-          startsWith(variables['Build.SourceBranch'], 'refs/tags/')
-        )
+    # condition: >
+    #   and(
+    #       succeeded(),
+    #       startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+    #     )
     dependsOn:
       - ValidateServiceBus
       - ValidateBlob
