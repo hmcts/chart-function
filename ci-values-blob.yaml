@@ -4,7 +4,7 @@ triggerAuth:
   enabled: true
   create: true
   nameOverride: "azure-mi-auth-{{ lower .Values.scaleType }}"
-  triggerPodIdentityProvider: "azure"
+  triggerPodIdentityProvider: "azure-workload"
 triggers:
   - type: azure-blob
     # Required: blobContainerName and connection

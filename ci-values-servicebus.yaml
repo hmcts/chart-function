@@ -4,7 +4,7 @@ scaleType: Job
 triggerAuth:
   create: true
   enabled: true
-  triggerPodIdentityProvider: "azure"
+  triggerPodIdentityProvider: "azure-workload"
 triggers:
 - type: azure-servicebus
   serviceBusName: "test-sbus" # required if triggerAuth.Enabled = true
