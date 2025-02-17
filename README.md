@@ -94,6 +94,8 @@ triggers
 
 ## Using Azure Triggers
 
+Supported for both Blob Storage Trigger & Service Bus Trigger.
+
 Blob Storage Trigger - Supply the `accountName` value of the Storage Account which the Blob Store is in and leave the `connection` value empty.
 
 Service Bus Trigger - Supply `serviceBusNamespace` value of the Service Bus namespace name, leave connection empty.
