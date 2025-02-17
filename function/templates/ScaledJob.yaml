@@ -21,7 +21,7 @@ spec:
     completions: {{ .Values.job.completions }}
     activeDeadlineSeconds: {{ .Values.job.activeDeadlineSeconds }}
     backoffLimit: {{ .Values.job.backoffLimit }}
-{{ include "hmcts.podtemplate.v5.tpl" . | indent 4 }}
+{{ include "hmcts.podtemplate.v6.tpl" . | indent 4 }}
   triggers:
     {{- range .Values.triggers }}
       {{- $data := dict "root" $ "trigger" . }}

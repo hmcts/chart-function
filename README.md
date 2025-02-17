@@ -8,7 +8,6 @@ Basic helm chart for running functions using [KEDA.](https://keda.sh/)
 ``` yaml
 scaleType: Job | Object # must be specified due to now supporting ScaledJob & ScaledObject
 ```
-
 the following value has adjusted:
 ```yaml
 triggerPodIdentityProvider: Azure
@@ -18,6 +17,16 @@ becomes:
 triggerAuth:
   triggerPodIdentityProvider: Azure
 ```
+
+**v2.6.0**:
+
+this value has been updated to:
+
+```yaml
+triggerAuth:
+  triggerPodIdentityProvider: azure-workload
+```
+
 
 ## Releases
 We use semantic versioning via GitHub releases to handle new releases of this application chart, this is done via automation called Release Drafter. When you merge a PR to master, a new draft release will be created.
@@ -83,7 +92,7 @@ triggers
     targetQueryValue: "1.1"
 ```
 
-## Pod Identity Auth
+## Using Azure Triggers
 
 Supported for both Blob Storage Trigger & Service Bus Trigger.
 
@@ -101,7 +110,6 @@ values:
       nameOverride: "azure-mi-auth{{ .Values.something-dynamic-even }}"
 ...
 ```
-
 ## Upgrading from 0.x.x
 Since version `1.0.0`, the chart now supports multiple triggers of different types and as such, the `Values` need to be 
 supplied as a list instead of a single object.
