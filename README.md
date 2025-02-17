@@ -2,23 +2,6 @@
 
 Basic helm chart for running functions using [KEDA.](https://keda.sh/)
 
-## Breaking Changes
-
-**v2.2.0**:
-``` yaml
-scaleType: Job | Object # must be specified due to now supporting ScaledJob & ScaledObject
-```
-
-the following value has adjusted:
-```yaml
-triggerPodIdentityProvider: Azure
-```
-becomes:
-```yaml
-triggerAuth:
-  triggerPodIdentityProvider: Azure
-```
-
 ## Releases
 We use semantic versioning via GitHub releases to handle new releases of this application chart, this is done via automation called Release Drafter. When you merge a PR to master, a new draft release will be created.
 More information is available about the [release process and how to create draft releases for testing purposes in more depth](https://hmcts.github.io/ops-runbooks/Testing-Changes/drafting-a-release.html)
@@ -83,9 +66,7 @@ triggers
     targetQueryValue: "1.1"
 ```
 
-## Pod Identity Auth
-
-Supported for both Blob Storage Trigger & Service Bus Trigger.
+## Using Azure Triggers
 
 Blob Storage Trigger - Supply the `accountName` value of the Storage Account which the Blob Store is in and leave the `connection` value empty.
 
@@ -100,31 +81,4 @@ values:
       enabled: true
       nameOverride: "azure-mi-auth{{ .Values.something-dynamic-even }}"
 ...
-```
-
-## Upgrading from 0.x.x
-Since version `1.0.0`, the chart now supports multiple triggers of different types and as such, the `Values` need to be 
-supplied as a list instead of a single object.
-
-Example of `0.x.x` `Values`
-```helmyaml
-values:
-  function:
-    trigger:
-      type: azure-blob
-      blob:
-        blobContainerName: "new"
-        accountName: "rpesendletterdemo"
-```
-
-Since `1.0.0`
-```helmyaml
-values:
-  function:
-    triggerAuth:
-      enabled: true
-    triggers:
-      - type: azure-blob
-        blobContainerName: "new"
-        accountName: "rpesendletterdemo"
 ```
