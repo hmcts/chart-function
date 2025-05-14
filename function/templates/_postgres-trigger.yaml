@@ -2,7 +2,28 @@
 {{- define "function.postgres" }}
 - type: postgresql
   metadata:
+    {{- if trigger.connectionFromEnv  }}
     connectionFromEnv: {{ .trigger.connectionFromEnv }}
+    {{- end }}
+    {{- if trigger.host  }}
+    host: {{ .trigger.host }}
+    {{- end }}
+    {{- if trigger.userName  }}
+    userName: {{ .trigger.userName }}
+    {{- end }}
+    {{- if trigger.passwordFromEnv  }}
+    passwordFromEnv: {{ .trigger.passwordFromEnv }}
+    {{- end }}
+    {{- if trigger.port  }}
+    port: {{ .trigger.port }}
+    {{- end }}
+    {{- if trigger.dbName  }}
+    dbName: {{ .trigger.dbName }}
+    {{- end }}
+    {{- if trigger.sslmode  }}
+    sslmode: {{ .trigger.sslmode }}
+    {{- end }}
+
     query: {{ .trigger.query }}
     targetQueryValue: {{ .trigger.targetQueryValue | quote }}
 {{- end }}
