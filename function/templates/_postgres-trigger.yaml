@@ -2,25 +2,25 @@
 {{- define "function.postgres" }}
 - type: postgresql
   metadata:
-    {{- if trigger.connectionFromEnv  }}
+    {{- if .trigger.connectionFromEnv  }}
     connectionFromEnv: {{ .trigger.connectionFromEnv }}
     {{- end }}
-    {{- if trigger.host  }}
+    {{- if .trigger.host  }}
     host: {{ .trigger.host }}
     {{- end }}
-    {{- if trigger.userName  }}
+    {{- if .trigger.userName  }}
     userName: {{ .trigger.userName }}
     {{- end }}
-    {{- if trigger.passwordFromEnv  }}
+    {{- if .trigger.passwordFromEnv  }}
     passwordFromEnv: {{ .trigger.passwordFromEnv }}
     {{- end }}
-    {{- if trigger.port  }}
+    {{- if .trigger.port  }}
     port: {{ .trigger.port }}
     {{- end }}
-    {{- if trigger.dbName  }}
+    {{- if .trigger.dbName  }}
     dbName: {{ .trigger.dbName }}
     {{- end }}
-    {{- if trigger.sslmode  }}
+    {{- if .trigger.sslmode  }}
     sslmode: {{ .trigger.sslmode }}
     {{- end }}
 
