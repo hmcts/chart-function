@@ -8,6 +8,7 @@ triggers:
     passwordFromEnv: 'DARTS_API_DEV_DB_PASSWORD' #required if connectionFromEnv is not provided
     port: <db_port> #required if connectionFromEnv is not provided
     dbName: <db_name> #required if connectionFromEnv is not provided
+    sslmode: 'require' #required if connectionFromEnv is not provided
     query: "SELECT count(*) FROM requests WHERE status = 'new'"
     targetQueryValue: "0.9"
 environment:
