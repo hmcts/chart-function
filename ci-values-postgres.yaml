@@ -5,7 +5,7 @@ triggers:
     connectionFromEnv: 'DB_CONNECTION_STRING' #required if host, userName, passwordFromEnv, port and dbName are not provided
     host: <db_host> #required if connectionFromEnv is not provided
     userName: <db_user> #required if connectionFromEnv is not provided
-    passwordFromEnv: 'DARTS_API_DEV_DB_PASSWORD' #required if connectionFromEnv is not provided
+    passwordFromEnv: 'DEV_DB_PASSWORD' #required if connectionFromEnv is not provided
     port: <db_port> #required if connectionFromEnv is not provided
     dbName: <db_name> #required if connectionFromEnv is not provided
     sslmode: 'require' #required if connectionFromEnv is not provided
