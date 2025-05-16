@@ -4,24 +4,13 @@
   metadata:
     {{- if .trigger.connectionFromEnv  }}
     connectionFromEnv: {{ .trigger.connectionFromEnv  | quote }}
-    {{- end }}
-    {{- if .trigger.host  }}
-    host: {{ .trigger.host  | quote }}
-    {{- end }}
-    {{- if .trigger.userName  }}
-    userName: {{ .trigger.userName  | quote }}
-    {{- end }}
-    {{- if .trigger.passwordFromEnv  }}
-    passwordFromEnv: {{ .trigger.passwordFromEnv  | quote }}
-    {{- end }}
-    {{- if .trigger.port  }}
-    port: {{ .trigger.port  | quote }}
-    {{- end }}
-    {{- if .trigger.dbName  }}
-    dbName: {{ .trigger.dbName  | quote }}
-    {{- end }}
-    {{- if .trigger.sslmode  }}
-    sslmode: {{ .trigger.sslmode  | quote }}
+    {{- else }}
+    host: {{ .trigger.host | quote }}
+    userName: {{ .trigger.userName | quote }}
+    passwordFromEnv: {{ .trigger.passwordFromEnv | quote }}
+    port: {{ .trigger.port | quote }}
+    dbName: {{ .trigger.dbName | quote }}
+    sslmode: {{ .trigger.sslmode | quote }}
     {{- end }}
 
     query: {{ .trigger.query }}
