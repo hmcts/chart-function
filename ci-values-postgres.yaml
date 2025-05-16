@@ -2,8 +2,15 @@ image: hmctspublic.azurecr.io/plum/batch:latest
 scaleType: Job
 triggers:
   - type: postgres
-    connectionFromEnv: 'DB_CONNECTION_STRING'
+    connectionFromEnv: 'DB_CONNECTION_STRING' #required if host, userName, passwordFromEnv, port and dbName are not provided
+    host: <db_host> #required if connectionFromEnv is not provided
+    userName: <db_user> #required if connectionFromEnv is not provided
+    passwordFromEnv: 'DB_PASSWORD' #required if connectionFromEnv is not provided
+    port: <db_port> #required if connectionFromEnv is not provided
+    dbName: <db_name> #required if connectionFromEnv is not provided
+    sslmode: 'require' #required if connectionFromEnv is not provided
     query: "SELECT count(*) FROM requests WHERE status = 'new'"
     targetQueryValue: "0.9"
 environment:
   DB_CONNECTION_STRING: "<db_connection_string>"
+  DB_PASSWORD: "<db_password>"
