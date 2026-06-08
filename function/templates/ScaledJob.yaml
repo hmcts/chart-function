@@ -11,7 +11,7 @@ spec:
   failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit }}
   rollout:
     strategy: {{ .Values.rollout.strategy }}
-    propagationPolicy: {{ .Values.rollout.strategy }}
+    propagationPolicy: {{ .Values.rollout.propagationPolicy }}
 {{- if eq .Values.scalingStrategy "accurate" }}
   scalingStrategy:
     strategy: {{ .Values.scalingStrategy }}
