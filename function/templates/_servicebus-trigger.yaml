@@ -14,7 +14,7 @@
     {{- if not .root.Values.triggerAuth.enabled }}
     connectionFromEnv: {{ .trigger.connectionFromEnv }}
     {{- end }}
-    messageCount: {{ .trigger.messageCount | quote }}
+    messageCount: {{ .trigger.messageCount | default 5 | quote }}
   {{- if .root.Values.triggerAuth.enabled }}
   authenticationRef:
 {{- include "function.trigger-auth-name" .root | indent 4 }}

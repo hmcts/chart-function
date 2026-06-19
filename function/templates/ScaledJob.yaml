@@ -7,8 +7,8 @@ metadata:
 spec:
   pollingInterval: {{ .Values.pollingInterval }}
   maxReplicaCount: {{ .Values.maxReplicaCount }}
-  successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit }}
-  failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit }}
+  successfulJobsHistoryLimit: {{ .Values.successfulJobsHistoryLimit | default 5 }}
+  failedJobsHistoryLimit: {{ .Values.failedJobsHistoryLimit | default 5 }}
   rollout:
     strategy: {{ .Values.rollout.strategy }}
     propagationPolicy: {{ .Values.rollout.propagationPolicy }}
