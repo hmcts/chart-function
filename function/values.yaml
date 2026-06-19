@@ -38,3 +38,5 @@ rollout:
   propagationPolicy: background
 scalingStrategy: "default" # "default" or "accurate" supported only
 useWorkloadIdentity: true
+successfulJobsHistoryLimit: 5
+failedJobsHistoryLimit: 5
