@@ -6,19 +6,23 @@ metadata:
   {{- ( include "hmcts.labels.v2" . ) | indent 2 }}
 spec:
   scaleTargetRef:
-    apiVersion: {{ .Values.object.apiVersion }}
-    kind: {{ .Values.object.kind }}
-    name: {{ .Values.object.name }}
-    envSourceContainerName: {{ .Values.object.envSourceContainerName }}
-  pollingInterval: {{ .Values.object.pollingInterval }}
-  cooldownPeriod: {{ .Values.object.cooldownPeriod }}
-  idleReplicaCount: {{ .Values.object.idleReplicaCount }}
-  minReplicaCount: {{ .Values.object.minReplicaCount }}
-  maxReplicaCount: {{ .Values.object.maxReplicaCount }}
+    apiVersion: {{ .Values.object.apiVersion | default "apps/v1" }}
+    kind: {{ .Values.object.kind | default "Deployment" }}
+    name: {{ required "object.name is required for ScaledObject" .Values.object.name }}
+    {{- with .Values.object.envSourceContainerName }}
+    envSourceContainerName: {{ . }}
+    {{- end }}
+  pollingInterval: {{ .Values.object.pollingInterval | default 30 }}
+  cooldownPeriod: {{ .Values.object.cooldownPeriod | default 300 }}
+  {{- with .Values.object.idleReplicaCount }}
+  idleReplicaCount: {{ . }}
+  {{- end }}
+  minReplicaCount: {{ .Values.object.minReplicaCount | default 0 }}
+  maxReplicaCount: {{ .Values.object.maxReplicaCount | default 100 }}
   {{- if or .Values.object.failureThreshold .Values.object.replicas }}
   fallback:
-    failureThreshold: {{ .Values.object.failureThreshold }}
-    replicas: {{ .Values.object.replicas }}
+    failureThreshold: {{ .Values.object.failureThreshold | default 3 }}
+    replicas: {{ .Values.object.replicas | default 1 }}
   {{- end }}
   triggers:
     {{- range .Values.triggers }}

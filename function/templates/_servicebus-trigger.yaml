@@ -3,16 +3,16 @@
 - type: azure-servicebus
   metadata:
     {{- if .root.Values.triggerAuth.enabled }}
-    namespace: {{ .trigger.serviceBusName }}
+    namespace: {{ .trigger.serviceBusName | quote }}
     {{- end }}
     {{- if .trigger.queueName }}
-    queueName: {{ .trigger.queueName }}
+    queueName: {{ .trigger.queueName | quote }}
     {{- else }}
-    topicName: {{ .trigger.topicName }}
-    subscriptionName: {{ .trigger.subscriptionName }}
+    topicName: {{ .trigger.topicName | quote }}
+    subscriptionName: {{ .trigger.subscriptionName | quote }}
     {{- end }}
     {{- if not .root.Values.triggerAuth.enabled }}
-    connectionFromEnv: {{ .trigger.connectionFromEnv }}
+    connectionFromEnv: {{ .trigger.connectionFromEnv | quote }}
     {{- end }}
     messageCount: {{ .trigger.messageCount | default 5 | quote }}
   {{- if .root.Values.triggerAuth.enabled }}

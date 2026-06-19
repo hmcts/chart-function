@@ -13,6 +13,6 @@
     sslmode: {{ .trigger.sslmode | quote }}
     {{- end }}
 
-    query: {{ .trigger.query }}
+    query: {{ required "trigger.query is required for postgres scaler" .trigger.query | quote }}
     targetQueryValue: {{ .trigger.targetQueryValue | quote }}
 {{- end }}
