@@ -28,6 +28,9 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-servicebus.yaml
+          kubeconformValuesFile: ci-values-servicebus.yaml
+          runSnapshotTests: true
+          runUnitTests: true
 
   - job: ValidateBlob
     steps:
@@ -38,6 +41,7 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob.yaml
+          kubeconformValuesFile: ci-values-blob.yaml
 
   - job: ValidateBlobUsingReleaseName
     steps:
@@ -48,6 +52,7 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob-release-name.yaml
+          kubeconformValuesFile: ci-values-blob-release-name.yaml
 
   - job: ValidateMixed
     steps:
@@ -58,6 +63,7 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-mixed.yaml
+          kubeconformValuesFile: ci-values-mixed.yaml
   - job: ValidateAzuredevopstrigger
     steps:
       - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
@@ -67,6 +73,7 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-azure-pipelines.yaml
+          kubeconformValuesFile: ci-values-azure-pipelines.yaml
   - job: ValidatePostgrestrigger
     steps:
       - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
@@ -76,6 +83,7 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-postgres.yaml
+          kubeconformValuesFile: ci-values-postgres.yaml
 
   - job: Release
     # Make sure we have a tag to run this job

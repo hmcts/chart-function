@@ -1,0 +1,29 @@
+# ci-values-minimal.yaml — chart-function
+#
+# Exercises the default scaleType: Job (ScaledJob) path with only the mandatory
+# field (image). Everything else falls through to values.yaml defaults.
+#
+# Expected failures on master (v2.6.3):
+#   successfulJobsHistoryLimit: null  — not in values.yaml, no default in template
+#   failedJobsHistoryLimit: null      — same
+#   + all chart-library inherited issues in the pod spec (replicas, targetPort, etc.)
+#
+# Validation:
+#
+#   # Standard k8s resources inside the ScaledJob pod spec (from chart-library):
+#   helm template test function/ -f ci-values-minimal.yaml \
+#     | kubeconform --strict --ignore-missing-schemas
+#
+#   # KEDA CRD fields (kubeconform skips keda.sh resources with --ignore-missing-schemas):
+#   helm template test function/ -f ci-values-minimal.yaml \
+#     | grep -E ': null$|: "null"$'
+#
+# Trigger-type paths are not exercised here. Use the existing per-trigger
+# ci-values files (ci-values-servicebus.yaml, ci-values-blob.yaml, etc.)
+# to validate those code paths — add the same grep/kubeconform check to each.
+#
+# ScaledObject path (scaleType: Object) requires a separate values file —
+# all object.* fields are absent from values.yaml and will emit null.
+# See helm-ssa-chart-audit.html §6 for the full list of required fixes.
+
+image: hmctspublic.azurecr.io/test/app:latest

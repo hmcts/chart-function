@@ -1,0 +1,78 @@
+suite: ScaledObject conditional rendering
+templates:
+  - templates/ScaledObject.yaml
+tests:
+  - it: renders when scaleType is Object
+    set:
+      image: hmctspublic.azurecr.io/test/app:latest
+      scaleType: Object
+      object:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: my-deployment
+        envSourceContainerName: my-container
+        pollingInterval: 30
+        cooldownPeriod: 300
+        idleReplicaCount: 0
+        minReplicaCount: 1
+        maxReplicaCount: 5
+      triggers: []
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: ScaledObject
+
+  - it: is absent when scaleType is Job
+    set:
+      image: hmctspublic.azurecr.io/test/app:latest
+      scaleType: Job
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders fallback block when failureThreshold and replicas are set
+    set:
+      image: hmctspublic.azurecr.io/test/app:latest
+      scaleType: Object
+      object:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: my-deployment
+        envSourceContainerName: my-container
+        pollingInterval: 30
+        cooldownPeriod: 300
+        idleReplicaCount: 0
+        minReplicaCount: 1
+        maxReplicaCount: 5
+        failureThreshold: 3
+        replicas: 2
+      triggers: []
+    asserts:
+      - exists:
+          path: spec.fallback
+      - equal:
+          path: spec.fallback.failureThreshold
+          value: 3
+      - equal:
+          path: spec.fallback.replicas
+          value: 2
+
+  - it: omits fallback block when failureThreshold and replicas are not set
+    set:
+      image: hmctspublic.azurecr.io/test/app:latest
+      scaleType: Object
+      object:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: my-deployment
+        envSourceContainerName: my-container
+        pollingInterval: 30
+        cooldownPeriod: 300
+        idleReplicaCount: 0
+        minReplicaCount: 1
+        maxReplicaCount: 5
+      triggers: []
+    asserts:
+      - notExists:
+          path: spec.fallback
