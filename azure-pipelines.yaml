@@ -32,8 +32,6 @@ jobs:
           runSnapshotTests: true
           runUnitTests: true
 
-  - job: ValidateBlob
-    steps:
       - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
         parameters:
           chartName: function
@@ -64,6 +62,7 @@ jobs:
           helmInstallTimeout: "500"
           valuesFile: ci-values-mixed.yaml
           kubeconformValuesFile: ci-values-mixed.yaml
+
   - job: ValidateAzuredevopstrigger
     steps:
       - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
@@ -74,6 +73,7 @@ jobs:
           helmInstallTimeout: "500"
           valuesFile: ci-values-azure-pipelines.yaml
           kubeconformValuesFile: ci-values-azure-pipelines.yaml
+
   - job: ValidatePostgrestrigger
     steps:
       - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
