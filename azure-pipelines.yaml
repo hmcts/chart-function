@@ -32,6 +32,8 @@ jobs:
           runSnapshotTests: true
           runUnitTests: true
 
+  - job: ValidateBlob
+    steps:
       - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
         parameters:
           chartName: function
