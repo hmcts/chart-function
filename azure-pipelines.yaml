@@ -11,10 +11,10 @@ resources:
   repositories:
     - repository: cnp-azuredevops-libraries
       type: github
-      ref: refs/heads/master
+      ref: refs/heads/helm_v4_validation
       name: hmcts/cnp-azuredevops-libraries
       endpoint: 'hmcts'
-      
+
 pool:
   vmImage: 'ubuntu-latest'
 
