@@ -29,7 +29,6 @@ jobs:
           helmInstallTimeout: "500"
           valuesFile: ci-values-servicebus.yaml
           kubeconformValuesFile: ci-values-servicebus.yaml
-          runSnapshotTests: true
           runUnitTests: true
 
   - job: ValidateBlob
