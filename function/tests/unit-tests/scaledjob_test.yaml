@@ -15,7 +15,8 @@ tests:
       - hasDocuments:
           count: 1
       - isKind:
-          of: ScaledJob
+        # INTENTIONAL_GATE_TEST: wrong expected kind to force helm-unittest failure.
+        of: ScaledObject
 
   - it: is absent when scaleType is Object
     set:

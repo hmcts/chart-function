@@ -1,6 +1,8 @@
 # using Pod Identity.
 image: hmctspublic.azurecr.io/plum/batch:latest
 scaleType: Job
+# INTENTIONAL_GATE_TEST: invalid type for ScaledJob spec.maxReplicaCount (expects integer).
+maxReplicaCount: banana
 triggerAuth:
   create: true
   enabled: true
