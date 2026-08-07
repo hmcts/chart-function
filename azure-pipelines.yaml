@@ -26,37 +26,37 @@ parameters:
         valuesFile: ci-values-servicebus.yaml
         kubeconformValuesFile: ci-values-servicebus.yaml
         runUnitTests: true
-        runSnapshotTests: false
+        runSnapshotTests: true
       - jobName: ValidateBlob
         chartReleaseName: chart-function-ci-blob-test
         valuesFile: ci-values-blob.yaml
         kubeconformValuesFile: ci-values-blob.yaml
-        runUnitTests: false
-        runSnapshotTests: false
+        runUnitTests: true
+        runSnapshotTests: true
       - jobName: ValidateBlobUsingReleaseName
         chartReleaseName: chart-function-ci-blob-rn-test
         valuesFile: ci-values-blob-release-name.yaml
         kubeconformValuesFile: ci-values-blob-release-name.yaml
-        runUnitTests: false
-        runSnapshotTests: false
+        runUnitTests: true
+        runSnapshotTests: true
       - jobName: ValidateMixed
         chartReleaseName: chart-function-ci-mixed-test
         valuesFile: ci-values-mixed.yaml
         kubeconformValuesFile: ci-values-mixed.yaml
-        runUnitTests: false
+        runUnitTests: true
         runSnapshotTests: true
       - jobName: ValidateAzuredevopstrigger
         chartReleaseName: chart-function-ci-azure-pipelines-test
         valuesFile: ci-values-azure-pipelines.yaml
         kubeconformValuesFile: ci-values-azure-pipelines.yaml
-        runUnitTests: false
-        runSnapshotTests: false
+        runUnitTests: true
+        runSnapshotTests: true
       - jobName: ValidatePostgrestrigger
         chartReleaseName: chart-function-ci-postgres-test
         valuesFile: ci-values-postgres.yaml
         kubeconformValuesFile: ci-values-postgres.yaml
-        runUnitTests: false
-        runSnapshotTests: false
+        runUnitTests: true
+        runSnapshotTests: true
 
 pool:
   vmImage: 'ubuntu-latest'
