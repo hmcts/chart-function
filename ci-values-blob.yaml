@@ -1,5 +1,7 @@
 image: hmctspublic.azurecr.io/plum/batch:latest
 scaleType: Job
+# INTENTIONAL_GATE_TEST: value-input mismatch for unit contract check.
+maxReplicaCount: 7
 triggerAuth:
   enabled: true
   create: true

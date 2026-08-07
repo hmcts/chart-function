@@ -15,8 +15,10 @@ tests:
       - hasDocuments:
           count: 1
       - isKind:
-        # INTENTIONAL_GATE_TEST: wrong expected kind to force helm-unittest failure.
-        of: ScaledObject
+          of: ScaledJob
+      - equal:
+          path: spec.maxReplicaCount
+          value: 5
 
   - it: is absent when scaleType is Object
     set:
