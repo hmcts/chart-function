@@ -1,11 +1,11 @@
-suite: ScaledJob servicebus snapshot
-# Snapshot is generated from the values loaded by the pipeline:
-#   --values ci-values-servicebus.yaml --values ci-values-minimal.yaml
+suite: ScaledJob snapshot
+# Snapshot is generated from values loaded by pipeline for each validation job.
+# Same suite runs multiple times with different values files.
 # Run `helm unittest --update-snapshot function/` to regenerate after intentional changes.
 templates:
   - templates/ScaledJob.yaml
   - templates/TriggerAuthentication.yaml
 tests:
-  - it: matches snapshot for servicebus scaleType Job with pod identity
+  - it: matches snapshot for current values set
     asserts:
       - matchSnapshot: {}
