@@ -13,6 +13,8 @@ triggers:
   #topicName: test-topic
   #subscriptionName: test-subscription
   messageCount: 5
+environment:
+  TEST_ENV: "test"
 
 # using Connection String.
 # image: hmctspublic.azurecr.io/plum/batch:latest
@@ -22,7 +24,7 @@ triggers:
 #   queueName: "test-queue"
 #   #topicName: test-topic
 #   #subscriptionName: test-subscription
-#   # required if triggerAuth.Enabled = false 
+#   # required if triggerAuth.Enabled = false
 #   connectionFromEnv: 'SERVICEBUS_CONNECTIONSTRING'  # this must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
 #   messageCount: 5
 # environment:

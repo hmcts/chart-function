@@ -1,4 +1,5 @@
 name: chart-function pipeline
+
 trigger:
   branches:
     include:
@@ -7,75 +8,73 @@ pr:
   branches:
     include:
       - master
+
 resources:
   repositories:
     - repository: cnp-azuredevops-libraries
       type: github
-      ref: refs/heads/master
+      ref: refs/heads/helm_v4_validation
       name: hmcts/cnp-azuredevops-libraries
       endpoint: 'hmcts'
-      
+
+parameters:
+  - name: validationJobs
+    type: object
+    default:
+      - jobName: ValidateServiceBus
+        chartReleaseName: chart-function-ci-servicebus-test
+        valuesFile: ci-values-servicebus.yaml
+        kubeconformValuesFile: ci-values-servicebus.yaml
+        runUnitTests: true
+        runSnapshotTests: true
+      - jobName: ValidateBlob
+        chartReleaseName: chart-function-ci-blob-test
+        valuesFile: ci-values-blob.yaml
+        kubeconformValuesFile: ci-values-blob.yaml
+        runUnitTests: true
+        runSnapshotTests: true
+      - jobName: ValidateBlobUsingReleaseName
+        chartReleaseName: chart-function-ci-blob-rn-test
+        valuesFile: ci-values-blob-release-name.yaml
+        kubeconformValuesFile: ci-values-blob-release-name.yaml
+        runUnitTests: true
+        runSnapshotTests: true
+      - jobName: ValidateMixed
+        chartReleaseName: chart-function-ci-mixed-test
+        valuesFile: ci-values-mixed.yaml
+        kubeconformValuesFile: ci-values-mixed.yaml
+        runUnitTests: true
+        runSnapshotTests: true
+      - jobName: ValidateAzuredevopstrigger
+        chartReleaseName: chart-function-ci-azure-pipelines-test
+        valuesFile: ci-values-azure-pipelines.yaml
+        kubeconformValuesFile: ci-values-azure-pipelines.yaml
+        runUnitTests: true
+        runSnapshotTests: true
+      - jobName: ValidatePostgrestrigger
+        chartReleaseName: chart-function-ci-postgres-test
+        valuesFile: ci-values-postgres.yaml
+        kubeconformValuesFile: ci-values-postgres.yaml
+        runUnitTests: true
+        runSnapshotTests: true
+
 pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  - job: ValidateServiceBus
-    steps:
-      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-servicebus-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-servicebus.yaml
-
-  - job: ValidateBlob
-    steps:
-      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-blob-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-blob.yaml
-
-  - job: ValidateBlobUsingReleaseName
-    steps:
-      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-blob-rn-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-blob-release-name.yaml
-
-  - job: ValidateMixed
-    steps:
-      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-mixed-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-mixed.yaml
-  - job: ValidateAzuredevopstrigger
-    steps:
-      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-azure-pipelines-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-azure-pipelines.yaml
-  - job: ValidatePostgrestrigger
-    steps:
-      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-postgres-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-postgres.yaml
+  - ${{ each validateJob in parameters.validationJobs }}:
+    - job: ${{ validateJob.jobName }}
+      steps:
+        - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
+          parameters:
+            chartName: function
+            chartReleaseName: ${{ validateJob.chartReleaseName }}
+            chartNamespace: chart-tests
+            helmInstallTimeout: "500"
+            valuesFile: ${{ validateJob.valuesFile }}
+            kubeconformValuesFile: ${{ validateJob.kubeconformValuesFile }}
+            runUnitTests: ${{ validateJob.runUnitTests }}
+            runSnapshotTests: ${{ validateJob.runSnapshotTests }}
 
   - job: Release
     # Make sure we have a tag to run this job
@@ -87,6 +86,10 @@ jobs:
     dependsOn:
       - ValidateServiceBus
       - ValidateBlob
+      - ValidateBlobUsingReleaseName
+      - ValidateMixed
+      - ValidateAzuredevopstrigger
+      - ValidatePostgrestrigger
     steps:
       - template: steps/charts/release.yaml@cnp-azuredevops-libraries
         parameters:

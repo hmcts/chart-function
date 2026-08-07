@@ -1,0 +1,85 @@
+suite: ScaledJob conditional rendering
+templates:
+  - templates/ScaledJob.yaml
+tests:
+  - it: renders when scaleType is Job
+    set:
+      image: hmctspublic.azurecr.io/test/app:latest
+      scaleType: Job
+      triggers:
+        - type: azure-servicebus
+          queueName: test-queue
+          connectionFromEnv: SERVICEBUS_CONN
+          messageCount: 5
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: ScaledJob
+
+  - it: is absent when scaleType is Object
+    set:
+      image: hmctspublic.azurecr.io/test/app:latest
+      scaleType: Object
+      object:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: my-deployment
+        envSourceContainerName: my-container
+        pollingInterval: 30
+        cooldownPeriod: 300
+        idleReplicaCount: 0
+        minReplicaCount: 1
+        maxReplicaCount: 5
+      triggers: []
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: renders scalingStrategy block when set to accurate
+    set:
+      image: hmctspublic.azurecr.io/test/app:latest
+      scaleType: Job
+      scalingStrategy: accurate
+      triggers:
+        - type: azure-servicebus
+          queueName: test-queue
+          connectionFromEnv: SERVICEBUS_CONN
+          messageCount: 5
+    asserts:
+      - equal:
+          path: spec.scalingStrategy.strategy
+          value: accurate
+
+  - it: omits scalingStrategy block when set to default
+    set:
+      image: hmctspublic.azurecr.io/test/app:latest
+      scaleType: Job
+      scalingStrategy: default
+      triggers:
+        - type: azure-servicebus
+          queueName: test-queue
+          connectionFromEnv: SERVICEBUS_CONN
+          messageCount: 5
+    asserts:
+      - notExists:
+          path: spec.scalingStrategy
+
+  - it: successfulJobsHistoryLimit and failedJobsHistoryLimit are set from values
+    set:
+      image: hmctspublic.azurecr.io/test/app:latest
+      scaleType: Job
+      successfulJobsHistoryLimit: 3
+      failedJobsHistoryLimit: 2
+      triggers:
+        - type: azure-servicebus
+          queueName: test-queue
+          connectionFromEnv: SERVICEBUS_CONN
+          messageCount: 5
+    asserts:
+      - equal:
+          path: spec.successfulJobsHistoryLimit
+          value: 3
+      - equal:
+          path: spec.failedJobsHistoryLimit
+          value: 2
