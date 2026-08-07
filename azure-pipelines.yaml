@@ -1,4 +1,22 @@
 name: chart-function pipeline
+
+trigger:
+  branches:
+    include:
+      - refs/tags/*
+pr:
+  branches:
+    include:
+      - master
+
+resources:
+  repositories:
+    - repository: cnp-azuredevops-libraries
+      type: github
+      ref: refs/heads/helm_v4_validation
+      name: hmcts/cnp-azuredevops-libraries
+      endpoint: 'hmcts'
+
 parameters:
   - name: validationJobs
     type: object
@@ -34,22 +52,6 @@ parameters:
         kubeconformValuesFile: ci-values-postgres.yaml
         runUnitTests: false
 
-trigger:
-  branches:
-    include:
-      - refs/tags/*
-pr:
-  branches:
-    include:
-      - master
-resources:
-  repositories:
-    - repository: cnp-azuredevops-libraries
-      type: github
-      ref: refs/heads/helm_v4_validation
-      name: hmcts/cnp-azuredevops-libraries
-      endpoint: 'hmcts'
-
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -77,6 +79,10 @@ jobs:
     dependsOn:
       - ValidateServiceBus
       - ValidateBlob
+      - ValidateBlobUsingReleaseName
+      - ValidateMixed
+      - ValidateAzuredevopstrigger
+      - ValidatePostgrestrigger
     steps:
       - template: steps/charts/release.yaml@cnp-azuredevops-libraries
         parameters:
