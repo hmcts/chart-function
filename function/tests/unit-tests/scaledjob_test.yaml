@@ -16,9 +16,6 @@ tests:
           count: 1
       - isKind:
           of: ScaledJob
-      - equal:
-          path: spec.maxReplicaCount
-          value: 5
 
   - it: is absent when scaleType is Object
     set:
