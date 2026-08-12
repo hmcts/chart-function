@@ -1,0 +1,62 @@
+suite: Blob trigger tests
+templates:
+  - templates/ScaledJob.yaml
+tests:
+  - it: should render required fields with defaults for blobCount, blobPrefix and blobDelimiter
+    set:
+      triggers:
+        - type: azure-blob
+          blobContainerName: test-container
+    asserts:
+      - equal:
+          path: spec.triggers[0].metadata.blobContainerName
+          value: test-container
+      - equal:
+          path: spec.triggers[0].metadata.blobCount
+          value: "1"
+      - equal:
+          path: spec.triggers[0].metadata.blobPrefix
+          value: ""
+      - equal:
+          path: spec.triggers[0].metadata.blobDelimiter
+          value: "/"
+      - notExists:
+          path: spec.triggers[0].metadata.connection
+      - notExists:
+          path: spec.triggers[0].metadata.accountName
+
+  - it: should render optional fields when provided
+    set:
+      triggers:
+        - type: azure-blob
+          blobContainerName: test-container
+          blobCount: 10
+          blobPrefix: prefix/
+          blobDelimiter: ":"
+          connection: AzureWebJobsStorage
+    asserts:
+      - equal:
+          path: spec.triggers[0].metadata.blobCount
+          value: "10"
+      - equal:
+          path: spec.triggers[0].metadata.blobPrefix
+          value: prefix/
+      - equal:
+          path: spec.triggers[0].metadata.blobDelimiter
+          value: ":"
+      - equal:
+          path: spec.triggers[0].metadata.connection
+          value: AzureWebJobsStorage
+
+  - it: should render authenticationRef when triggerAuth is enabled
+    set:
+      triggerAuth:
+        create: true
+        enabled: true
+      triggers:
+        - type: azure-blob
+          blobContainerName: test-container
+    asserts:
+      - exists:
+          path: spec.triggers[0].authenticationRef
+

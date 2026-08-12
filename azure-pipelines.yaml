@@ -19,6 +19,17 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
+  - job: UnitTestTemplates
+    steps:
+      - task: HelmInstaller@1
+        displayName: 'Install Helm'
+        inputs:
+          helmVersionToInstall: 3.18.0
+      - script: helm plugin install https://github.com/helm-unittest/helm-unittest.git
+        displayName: 'Install Helm Unit Test Plugin'
+      - script: ./tests/test-templates.sh
+        displayName: 'Run unit tests'
+
   - job: ValidateServiceBus
     steps:
       - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
@@ -85,6 +96,7 @@ jobs:
           startsWith(variables['Build.SourceBranch'], 'refs/tags/')
         )
     dependsOn:
+      - UnitTestTemplates
       - ValidateServiceBus
       - ValidateBlob
     steps:

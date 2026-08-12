@@ -1,0 +1,77 @@
+suite: ScaledObject tests
+templates:
+  - templates/ScaledObject.yaml
+tests:
+  - it: should not render when scaleType is Job (default)
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render a ScaledObject when scaleType is Object
+    set:
+      scaleType: Object
+      object:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: my-deployment
+        envSourceContainerName: my-deployment
+        pollingInterval: 30
+        cooldownPeriod: 300
+        idleReplicaCount: 0
+        minReplicaCount: 1
+        maxReplicaCount: 5
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: ScaledObject
+      - equal:
+          path: metadata.name
+          value: release-name-function
+      - equal:
+          path: spec.scaleTargetRef.kind
+          value: Deployment
+      - equal:
+          path: spec.scaleTargetRef.name
+          value: my-deployment
+
+  - it: should render fallback block when failureThreshold or replicas are set
+    set:
+      scaleType: Object
+      object:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: my-deployment
+        envSourceContainerName: my-deployment
+        pollingInterval: 30
+        cooldownPeriod: 300
+        idleReplicaCount: 0
+        minReplicaCount: 1
+        maxReplicaCount: 5
+        failureThreshold: 3
+        replicas: 2
+    asserts:
+      - equal:
+          path: spec.fallback.failureThreshold
+          value: 3
+      - equal:
+          path: spec.fallback.replicas
+          value: 2
+
+  - it: should omit fallback block when failureThreshold and replicas are unset
+    set:
+      scaleType: Object
+      object:
+        apiVersion: apps/v1
+        kind: Deployment
+        name: my-deployment
+        envSourceContainerName: my-deployment
+        pollingInterval: 30
+        cooldownPeriod: 300
+        idleReplicaCount: 0
+        minReplicaCount: 1
+        maxReplicaCount: 5
+    asserts:
+      - notExists:
+          path: spec.fallback
+

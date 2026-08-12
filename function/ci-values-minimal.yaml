@@ -1,0 +1,5 @@
+# Fed into: helm-unittest assertion tests (tests/unit-tests/)
+# Only the required field is set here; `set:` in each test drives all other inputs
+# so ci-values can't silently satisfy a condition under test.
+image: hmctspublic.azurecr.io/test/app:latest
+
