@@ -2,8 +2,8 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledJob
 metadata:
-  name: {{ template "hmcts.releasename.v2" . }}
-  {{- ( include "hmcts.labels.v2" . ) | indent 2 }}
+  name: {{ template "hmcts.releasename.v3" . }}
+  {{- ( include "hmcts.labels.v3" . ) | indent 2 }}
 spec:
   pollingInterval: {{ .Values.pollingInterval }}
   maxReplicaCount: {{ .Values.maxReplicaCount }}
@@ -21,7 +21,7 @@ spec:
     completions: {{ .Values.job.completions }}
     activeDeadlineSeconds: {{ .Values.job.activeDeadlineSeconds }}
     backoffLimit: {{ .Values.job.backoffLimit }}
-{{ include "hmcts.podtemplate.v6.tpl" . | indent 4 }}
+{{ include "hmcts.podtemplate.v7.tpl" . | indent 4 }}
   triggers:
     {{- range .Values.triggers }}
       {{- $data := dict "root" $ "trigger" . }}
