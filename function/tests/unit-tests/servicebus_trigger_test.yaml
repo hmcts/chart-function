@@ -30,6 +30,9 @@ tests:
 
   - it: should render connection-string based fields without authenticationRef
     set:
+      triggerAuth:
+        create: false
+        enabled: false
       triggers:
         - type: azure-servicebus
           queueName: test-queue
@@ -46,6 +49,9 @@ tests:
 
   - it: should render topic and subscription when queueName is not set
     set:
+      triggerAuth:
+        create: false
+        enabled: false
       triggers:
         - type: azure-servicebus
           topicName: test-topic
