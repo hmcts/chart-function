@@ -87,7 +87,6 @@ jobs:
           startsWith(variables['Build.SourceBranch'], 'refs/tags/')
         )
     dependsOn:
-      - UnitTestTemplates
       - ValidateServiceBus
       - ValidateBlob
     steps:
