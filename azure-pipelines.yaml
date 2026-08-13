@@ -27,7 +27,7 @@ jobs:
           chartReleaseName: chart-function-ci-servicebus-test
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
-          valuesFile: "function/ci-values-minimal.yaml"
+          valuesFile: "ci-values-servicebus.yaml"
           runUnitTests: true
           unitTestFile: "servicebus_trigger_test.yaml"
           helmUnittestValuesFile: ci-values-servicebus.yaml
@@ -40,7 +40,7 @@ jobs:
           chartReleaseName: chart-function-ci-blob-test
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
-          valuesFile: "function/ci-values-minimal.yaml"
+          valuesFile: "ci-values-blob.yaml"
           runUnitTests: true
           unitTestFile: "blob_trigger_test.yaml"
           helmUnittestValuesFile: ci-values-blob.yaml
@@ -53,7 +53,7 @@ jobs:
           chartReleaseName: chart-function-ci-mixed-test
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
-          valuesFile: "function/ci-values-minimal.yaml"
+          valuesFile: "ci-values-mixed.yaml"
           runUnitTests: true
           unitTestFile: "mixed_trigger_test.yaml"
           helmUnittestValuesFile: ci-values-mixed.yaml
@@ -66,7 +66,7 @@ jobs:
           chartReleaseName: chart-function-ci-azure-pipelines-test
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
-          valuesFile: "function/ci-values-minimal.yaml"
+          valuesFile: "ci-values-azure-pipelines.yaml"
           runUnitTests: true
           unitTestFile: "azure_pipelines_trigger_test.yaml"
           helmUnittestValuesFile: ci-values-azure-pipelines.yaml
@@ -79,7 +79,7 @@ jobs:
           chartReleaseName: chart-function-ci-postgres-test
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
-          valuesFile: "function/ci-values-minimal.yaml"
+          valuesFile: "ci-values-postgres.yaml"
           runUnitTests: true
           unitTestFile: "postgres_trigger_test.yaml"
           helmUnittestValuesFile: ci-values-postgres.yaml
