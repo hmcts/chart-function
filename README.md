@@ -95,13 +95,14 @@ It currently supports below triggers:
 ### [Azure service bus trigger](https://keda.sh/docs/1.4/scalers/azure-service-bus/)
 ```helmyaml
 triggers
-  - type: azure-servicebus 
+  - type: azure-servicebus
     # Required: queueName OR topicName and subscriptionName
     queueName:
     topicName:
     subscriptionName:
-    connection: # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
-    queueLength: 1
+    serviceBusName: # Required if triggerAuth.enabled = true (pod identity); rendered as the KEDA "namespace" field
+    connectionFromEnv: # Required if triggerAuth.enabled = false. Must be the name of an env var (see `environment:`) holding a connection string for the queue itself, not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
+    messageCount: 1
 ```
 ### [Azure blob storage trigger](https://keda.sh/docs/1.4/scalers/azure-storage-blob/)
 ```helmyaml
