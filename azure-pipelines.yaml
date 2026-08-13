@@ -11,7 +11,7 @@ resources:
   repositories:
     - repository: cnp-azuredevops-libraries
       type: github
-      ref: refs/heads/master
+      ref: refs/heads/dtspo-33905-unittest-chart-templates
       name: hmcts/cnp-azuredevops-libraries
       endpoint: 'hmcts'
       
@@ -19,17 +19,6 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
-  - job: UnitTestTemplates
-    steps:
-      - task: HelmInstaller@1
-        displayName: 'Install Helm'
-        inputs:
-          helmVersionToInstall: 3.18.0
-      - script: helm plugin install https://github.com/helm-unittest/helm-unittest.git
-        displayName: 'Install Helm Unit Test Plugin'
-      - script: ./tests/test-templates.sh
-        displayName: 'Run unit tests'
-
   - job: ValidateServiceBus
     steps:
       - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
@@ -39,6 +28,8 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-servicebus.yaml
+          runUnitTests: true
+          unitTestFile: "servicebus_trigger_test.yaml"
 
   - job: ValidateBlob
     steps:
@@ -49,16 +40,8 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-blob.yaml
-
-  - job: ValidateBlobUsingReleaseName
-    steps:
-      - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
-        parameters:
-          chartName: function
-          chartReleaseName: chart-function-ci-blob-rn-test
-          chartNamespace: chart-tests
-          helmInstallTimeout: "500"
-          valuesFile: ci-values-blob-release-name.yaml
+          runUnitTests: true
+          unitTestFile: "blob_trigger_test.yaml"
 
   - job: ValidateMixed
     steps:
@@ -69,6 +52,9 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-mixed.yaml
+          runUnitTests: true
+          unitTestFile: "mixed_trigger_test.yaml"
+
   - job: ValidateAzuredevopstrigger
     steps:
       - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
@@ -78,6 +64,9 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-azure-pipelines.yaml
+          runUnitTests: true
+          unitTestFile: "azure_pipelines_trigger_test.yaml"
+
   - job: ValidatePostgrestrigger
     steps:
       - template: steps/charts/validate.yaml@cnp-azuredevops-libraries
@@ -87,6 +76,8 @@ jobs:
           chartNamespace: chart-tests
           helmInstallTimeout: "500"
           valuesFile: ci-values-postgres.yaml
+          runUnitTests: true
+          unitTestFile: "postgres_trigger_test.yaml"
 
   - job: Release
     # Make sure we have a tag to run this job
