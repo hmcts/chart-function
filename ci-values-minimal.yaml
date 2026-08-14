@@ -1,0 +1,2 @@
+# Fed into: helm-unittest assertion tests + snapshots (ValidateServiceBus, as the second --values layer alongside ci-values-servicebus.yaml)
+image: hmctspublic.azurecr.io/test/app:latest # only required field; all other values fall through to values.yaml defaults, exercising the ScaledJob code path

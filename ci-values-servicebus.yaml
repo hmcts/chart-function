@@ -13,6 +13,8 @@ triggers:
   #topicName: test-topic
   #subscriptionName: test-subscription
   messageCount: 5
+environment:
+  TEST_ENV: "test"
 
 # using Pod Identity with topic/subscription instead of queueName:
 # triggers:
