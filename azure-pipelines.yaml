@@ -25,36 +25,43 @@ parameters:
         valuesFile: ci-values-servicebus.yaml
         kubeconformValuesFile: ci-values-servicebus.yaml
         runUnitTests: true
-        unitTestFile: servicebus_test.yaml
+        unitTestFile: servicebus_trigger_test.yaml
         helmUnittestValuesFile: ci-values-servicebus.yaml
       - jobName: ValidateBlob
         chartReleaseName: chart-function-ci-blob-test
         valuesFile: ci-values-blob.yaml
         kubeconformValuesFile: ci-values-blob.yaml
         runUnitTests: true
-        unitTestFile: blob_test.yaml
+        unitTestFile: blob_trigger_test.yaml
         helmUnittestValuesFile: ci-values-blob.yaml
       - jobName: ValidateMixed
         chartReleaseName: chart-function-ci-mixed-test
         valuesFile: ci-values-mixed.yaml
         kubeconformValuesFile: ci-values-mixed.yaml
         runUnitTests: true
-        unitTestFile: mixed_test.yaml
+        unitTestFile: mixed_trigger_test.yaml
         helmUnittestValuesFile: ci-values-mixed.yaml
       - jobName: ValidateAzuredevopstrigger
         chartReleaseName: chart-function-ci-azure-pipelines-test
         valuesFile: ci-values-azure-pipelines.yaml
         kubeconformValuesFile: ci-values-azure-pipelines.yaml
         runUnitTests: true
-        unitTestFile: azure_pipelines_test.yaml
+        unitTestFile: azure_pipelines_trigger_test.yaml
         helmUnittestValuesFile: ci-values-azure-pipelines.yaml
       - jobName: ValidatePostgrestrigger
         chartReleaseName: chart-function-ci-postgres-test
         valuesFile: ci-values-postgres.yaml
         kubeconformValuesFile: ci-values-postgres.yaml
         runUnitTests: true
-        unitTestFile: postgres_test.yaml
+        unitTestFile: postgres_trigger_test.yaml
         helmUnittestValuesFile: ci-values-postgres.yaml
+      - jobName: ValidateTriggerAuth
+        chartReleaseName: chart-function-ci-triggerAuth-test
+        valuesFile: ci-values-triggerAuth.yaml
+        kubeconformValuesFile: ci-values-triggerAuth.yaml
+        runUnitTests: true
+        unitTestFile: triggerauthentication_test.yaml
+        helmUnittestValuesFile: ci-values-triggerAuth.yaml
 
 pool:
   vmImage: 'ubuntu-latest'

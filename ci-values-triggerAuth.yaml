@@ -1,0 +1,9 @@
+# using Pod Identity.
+image: hmctspublic.azurecr.io/plum/batch:latest
+scaleType: Job
+triggerAuth:
+  create: true
+  enabled: true
+  triggerPodIdentityProvider: "azure-workload"
+environment:
+  TEST_ENV: "test"
