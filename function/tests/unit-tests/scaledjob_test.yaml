@@ -59,6 +59,8 @@ tests:
           value: accurate
 
   - it: should omit scalingStrategy block when scalingStrategy is default
+    set:
+      scalingStrategy: default
     asserts:
       - notExists:
           path: spec.scalingStrategy

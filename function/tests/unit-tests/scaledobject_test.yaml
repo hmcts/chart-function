@@ -3,6 +3,8 @@ templates:
   - templates/ScaledObject.yaml
 tests:
   - it: should not render when scaleType is Job (default)
+    set:
+      scaleType: Job
     asserts:
       - hasDocuments:
           count: 0
@@ -71,6 +73,8 @@ tests:
         idleReplicaCount: 0
         minReplicaCount: 1
         maxReplicaCount: 5
+        failureThreshold: null
+        replicas: null
     asserts:
       - notExists:
           path: spec.fallback

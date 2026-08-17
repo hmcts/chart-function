@@ -3,6 +3,10 @@ templates:
   - templates/TriggerAuthentication.yaml
 tests:
   - it: should not render by default (triggerAuth.enabled is false)
+    set:
+      triggerAuth:
+        create: false
+        enabled: false
     asserts:
       - hasDocuments:
           count: 0
