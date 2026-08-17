@@ -25,7 +25,6 @@ parameters:
         valuesFile: ci-values-servicebus.yaml
         kubeconformValuesFile: ci-values-servicebus.yaml
         runUnitTests: true
-        runSnapshotTests: true
         unitTestFile: servicebus_test.yaml
         helmUnittestValuesFile: ci-values-servicebus.yaml
       - jobName: ValidateBlob
@@ -33,7 +32,6 @@ parameters:
         valuesFile: ci-values-blob.yaml
         kubeconformValuesFile: ci-values-blob.yaml
         runUnitTests: true
-        runSnapshotTests: true
         unitTestFile: blob_test.yaml
         helmUnittestValuesFile: ci-values-blob.yaml
       - jobName: ValidateMixed
@@ -41,7 +39,6 @@ parameters:
         valuesFile: ci-values-mixed.yaml
         kubeconformValuesFile: ci-values-mixed.yaml
         runUnitTests: true
-        runSnapshotTests: true
         unitTestFile: mixed_test.yaml
         helmUnittestValuesFile: ci-values-mixed.yaml
       - jobName: ValidateAzuredevopstrigger
@@ -49,7 +46,6 @@ parameters:
         valuesFile: ci-values-azure-pipelines.yaml
         kubeconformValuesFile: ci-values-azure-pipelines.yaml
         runUnitTests: true
-        runSnapshotTests: true
         unitTestFile: azure_pipelines_test.yaml
         helmUnittestValuesFile: ci-values-azure-pipelines.yaml
       - jobName: ValidatePostgrestrigger
@@ -57,7 +53,6 @@ parameters:
         valuesFile: ci-values-postgres.yaml
         kubeconformValuesFile: ci-values-postgres.yaml
         runUnitTests: true
-        runSnapshotTests: true
         unitTestFile: postgres_test.yaml
         helmUnittestValuesFile: ci-values-postgres.yaml
 
@@ -77,7 +72,6 @@ jobs:
             valuesFile: ${{ validateJob.valuesFile }}
             kubeconformValuesFile: ${{ validateJob.kubeconformValuesFile }}
             runUnitTests: ${{ validateJob.runUnitTests }}
-            runSnapshotTests: ${{ validateJob.runSnapshotTests }}
             unitTestFile: ${{ validateJob.unitTestFile }}
             helmUnittestValuesFile: ${{ validateJob.helmUnittestValuesFile }}
 
