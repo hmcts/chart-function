@@ -5,5 +5,11 @@ triggerAuth:
   create: true
   enabled: true
   triggerPodIdentityProvider: "azure-workload"
+triggers:
+  - type: azure-blob
+    blobContainerName: test-functions-blob
+    blobCount: 1
+    connection: TEST_ENV # connection string authentication.
+    accountName: ""
 environment:
   TEST_ENV: "test"
