@@ -56,7 +56,7 @@ parameters:
         unitTestFile: postgres_trigger_test.yaml
         helmUnittestValuesFile: ci-values-postgres.yaml
       - jobName: ValidateTriggerAuth
-        chartReleaseName: chart-function-ci-triggerAuth-test
+        chartReleaseName: chart-function-ci-triggerauth-test
         valuesFile: ci-values-triggerAuth.yaml
         kubeconformValuesFile: ci-values-triggerAuth.yaml
         runUnitTests: true
