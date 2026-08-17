@@ -1,0 +1,21 @@
+image: hmctspublic.azurecr.io/plum/batch:latest
+scaleType: Object
+object:
+  apiVersion: apps/v1
+  kind: Deployment
+  name: chart-function-ci-scaledobject-test
+  envSourceContainerName: chart-function-ci-scaledobject-test
+  pollingInterval: 30
+  cooldownPeriod: 300
+  idleReplicaCount: 0
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  failureThreshold: 3
+  replicas: 2
+triggers:
+  - type: azure-servicebus
+    queueName: test-queue
+    connectionFromEnv: TEST_ENV # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
+    messageCount: 5
+environment:
+  TEST_ENV: "test"
