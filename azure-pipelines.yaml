@@ -112,6 +112,7 @@ jobs:
       - ValidatePostgrestrigger
       - ValidateScaledJob
       - ValidateScaledObject
+      - ValidateTriggerAuth
     steps:
       - template: steps/charts/release.yaml@cnp-azuredevops-libraries
         parameters:
