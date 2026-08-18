@@ -1,0 +1,60 @@
+suite: Azure Pipelines trigger tests
+templates:
+  - templates/ScaledJob.yaml
+tests:
+  - it: should render required fields and default queue length thresholds
+    set:
+      triggers:
+        - type: azure-pipelines
+          poolID: "22"
+    asserts:
+      - equal:
+          path: spec.triggers[0].metadata.poolID
+          value: "22"
+      - equal:
+          path: spec.triggers[0].metadata.organizationURLFromEnv
+          value: AZP_URL
+      - equal:
+          path: spec.triggers[0].metadata.targetPipelinesQueueLength
+          value: "1"
+      - equal:
+          path: spec.triggers[0].metadata.activationTargetPipelinesQueueLength
+          value: "0"
+      - notExists:
+          path: spec.triggers[0].metadata.poolName
+
+  - it: should render poolName and overridden queue length thresholds when provided
+    set:
+      triggers:
+        - type: azure-pipelines
+          poolName: my-pool
+          poolID: "22"
+          organizationURLFromEnv: CUSTOM_AZP_URL
+          targetPipelinesQueueLength: "2"
+          activationTargetPipelinesQueueLength: "5"
+    asserts:
+      - equal:
+          path: spec.triggers[0].metadata.poolName
+          value: my-pool
+      - equal:
+          path: spec.triggers[0].metadata.organizationURLFromEnv
+          value: CUSTOM_AZP_URL
+      - equal:
+          path: spec.triggers[0].metadata.targetPipelinesQueueLength
+          value: "2"
+      - equal:
+          path: spec.triggers[0].metadata.activationTargetPipelinesQueueLength
+          value: "5"
+
+  - it: should render authenticationRef when triggerAuth is enabled
+    set:
+      triggerAuth:
+        create: true
+        enabled: true
+      triggers:
+        - type: azure-pipelines
+          poolID: "22"
+    asserts:
+      - exists:
+          path: spec.triggers[0].authenticationRef
+

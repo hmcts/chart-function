@@ -1,0 +1,38 @@
+suite: Mixed trigger tests
+templates:
+  - templates/ScaledJob.yaml
+tests:
+  - it: should render both azure-blob and azure-servicebus triggers in a single ScaledJob
+    set:
+      triggers:
+        - type: azure-blob
+          blobContainerName: test-container
+          connection: TEST_ENV
+          accountName: ""
+        - type: azure-servicebus
+          queueName: test-queue
+          connectionFromEnv: TEST_ENV
+          messageCount: 1
+    asserts:
+      - equal:
+          path: spec.triggers[0].type
+          value: azure-blob
+      - equal:
+          path: spec.triggers[0].metadata.blobContainerName
+          value: test-container
+      - equal:
+          path: spec.triggers[0].metadata.connection
+          value: TEST_ENV
+      - equal:
+          path: spec.triggers[1].type
+          value: azure-servicebus
+      - equal:
+          path: spec.triggers[1].metadata.queueName
+          value: test-queue
+      - equal:
+          path: spec.triggers[1].metadata.connectionFromEnv
+          value: TEST_ENV
+      - equal:
+          path: spec.triggers[1].metadata.messageCount
+          value: "1"
+

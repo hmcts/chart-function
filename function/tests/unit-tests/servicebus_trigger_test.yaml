@@ -1,0 +1,104 @@
+suite: ServiceBus trigger tests
+templates:
+  - templates/ScaledJob.yaml
+tests:
+  - it: should render pod-identity based fields with namespace and authenticationRef
+    set:
+      triggerAuth:
+        create: true
+        enabled: true
+        triggerPodIdentityProvider: azure-workload
+      triggers:
+        - type: azure-servicebus
+          serviceBusName: test-sbus
+          queueName: test-queue
+          messageCount: 5
+    asserts:
+      - equal:
+          path: spec.triggers[0].metadata.namespace
+          value: test-sbus
+      - equal:
+          path: spec.triggers[0].metadata.queueName
+          value: test-queue
+      - equal:
+          path: spec.triggers[0].metadata.messageCount
+          value: "5"
+      - notExists:
+          path: spec.triggers[0].metadata.connectionFromEnv
+      - exists:
+          path: spec.triggers[0].authenticationRef
+
+  - it: should render connection-string based fields without authenticationRef
+    set:
+      triggerAuth:
+        create: false
+        enabled: false
+      triggers:
+        - type: azure-servicebus
+          queueName: test-queue
+          connectionFromEnv: SERVICEBUS_CONNECTIONSTRING
+          messageCount: 5
+    asserts:
+      - notExists:
+          path: spec.triggers[0].metadata.namespace
+      - equal:
+          path: spec.triggers[0].metadata.connectionFromEnv
+          value: SERVICEBUS_CONNECTIONSTRING
+      - notExists:
+          path: spec.triggers[0].authenticationRef
+
+  - it: should render topic and subscription when queueName is not set
+    set:
+      triggerAuth:
+        create: false
+        enabled: false
+      triggers:
+        - type: azure-servicebus
+          topicName: test-topic
+          subscriptionName: test-subscription
+          connectionFromEnv: SERVICEBUS_CONNECTIONSTRING
+          messageCount: 2
+    asserts:
+      - equal:
+          path: spec.triggers[0].metadata.topicName
+          value: test-topic
+      - equal:
+          path: spec.triggers[0].metadata.subscriptionName
+          value: test-subscription
+      - notExists:
+          path: spec.triggers[0].metadata.queueName
+      - equal:
+          path: spec.triggers[0].metadata.connectionFromEnv
+          value: SERVICEBUS_CONNECTIONSTRING
+      - notExists:
+          path: spec.triggers[0].authenticationRef
+
+  - it: should render namespace and authenticationRef when using topic/subscription with pod-identity
+    set:
+      triggerAuth:
+        create: true
+        enabled: true
+        triggerPodIdentityProvider: azure-workload
+      triggers:
+        - type: azure-servicebus
+          serviceBusName: test-sbus
+          topicName: test-topic
+          subscriptionName: test-subscription
+          messageCount: 2
+    asserts:
+      - equal:
+          path: spec.triggers[0].metadata.namespace
+          value: test-sbus
+      - equal:
+          path: spec.triggers[0].metadata.topicName
+          value: test-topic
+      - equal:
+          path: spec.triggers[0].metadata.subscriptionName
+          value: test-subscription
+      - notExists:
+          path: spec.triggers[0].metadata.queueName
+      - notExists:
+          path: spec.triggers[0].metadata.connectionFromEnv
+      - exists:
+          path: spec.triggers[0].authenticationRef
+

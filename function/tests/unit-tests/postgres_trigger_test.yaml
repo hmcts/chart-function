@@ -1,0 +1,58 @@
+suite: Postgres trigger tests
+templates:
+  - templates/ScaledJob.yaml
+tests:
+  - it: should render connectionFromEnv field when set, and omit discrete connection fields
+    set:
+      triggers:
+        - type: postgres
+          connectionFromEnv: POSTGRES_CONNECTIONSTRING
+          query: "SELECT count(*) FROM requests WHERE status = 'new'"
+          targetQueryValue: "0.9"
+    asserts:
+      - equal:
+          path: spec.triggers[0].metadata.connectionFromEnv
+          value: POSTGRES_CONNECTIONSTRING
+      - notExists:
+          path: spec.triggers[0].metadata.host
+      - equal:
+          path: spec.triggers[0].metadata.query
+          value: "SELECT count(*) FROM requests WHERE status = 'new'"
+      - equal:
+          path: spec.triggers[0].metadata.targetQueryValue
+          value: "0.9"
+
+  - it: should render discrete connection fields when connectionFromEnv is not set
+    set:
+      triggers:
+        - type: postgres
+          host: postgres.example.com
+          userName: app
+          passwordFromEnv: POSTGRES_PASSWORD
+          port: "5432"
+          dbName: appdb
+          sslmode: require
+          query: "SELECT 1"
+          targetQueryValue: "1"
+    asserts:
+      - equal:
+          path: spec.triggers[0].metadata.host
+          value: postgres.example.com
+      - equal:
+          path: spec.triggers[0].metadata.userName
+          value: app
+      - equal:
+          path: spec.triggers[0].metadata.passwordFromEnv
+          value: POSTGRES_PASSWORD
+      - equal:
+          path: spec.triggers[0].metadata.port
+          value: "5432"
+      - equal:
+          path: spec.triggers[0].metadata.dbName
+          value: appdb
+      - equal:
+          path: spec.triggers[0].metadata.sslmode
+          value: require
+      - notExists:
+          path: spec.triggers[0].metadata.connectionFromEnv
+
