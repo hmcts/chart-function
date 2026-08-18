@@ -62,6 +62,7 @@ parameters:
         runUnitTests: true
         unitTestFile: scaledjob_test.yaml
         helmUnittestValuesFile: ci-values-scaledjob.yaml
+        runSnapshotTests: true
       - jobName: ValidateScaledObject
         chartReleaseName: chart-function-ci-scaledobject-test
         valuesFile: ci-values-scaledobject.yaml
