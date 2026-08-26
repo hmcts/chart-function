@@ -16,6 +16,9 @@ resources:
       name: hmcts/cnp-azuredevops-libraries
       endpoint: 'hmcts'
 
+variables:
+  - template: vars/helm-unittest-variables.yaml@cnp-azuredevops-libraries
+
 parameters:
   - name: validationJobs
     type: object
