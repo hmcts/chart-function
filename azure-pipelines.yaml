@@ -104,7 +104,7 @@ jobs:
             runUnitTests: ${{ validateJob.runUnitTests }}
             helmUnittestFile: ${{ validateJob.helmUnittestFile }}
             helmUnittestValuesFiles: ${{ validateJob.helmUnittestValuesFiles }}
-            runSnapshotTests: ${{ validateJob.runSnapshotTests || false }}
+            runSnapshotTests: ${{ if eq(validateJob.runSnapshotTests, true) then 'true' else 'false' }}
 
   - job: Release
     # Make sure we have a tag to run this job
