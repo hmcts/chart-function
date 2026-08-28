@@ -3,7 +3,7 @@ apiVersion: keda.sh/v1alpha1
 kind: TriggerAuthentication
 metadata:
 {{- include "function.trigger-auth-name" . | indent 2 }}
-{{- ( include "hmcts.labels.v2" . ) | indent 2 }}
+{{- ( include "hmcts.labels.v3" . ) | indent 2 }}
 spec:
   podIdentity:
     provider: {{ .Values.triggerAuth.triggerPodIdentityProvider }} # none | azure | gcp | spiffe | aws-eks | aws-kiam

@@ -2,8 +2,8 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: {{ template "hmcts.releasename.v2" . }}
-  {{- ( include "hmcts.labels.v2" . ) | indent 2 }}
+  name: {{ template "hmcts.releasename.v3" . }}
+  {{- ( include "hmcts.labels.v3" . ) | indent 2 }}
 spec:
   scaleTargetRef:
     apiVersion: {{ .Values.object.apiVersion }}
