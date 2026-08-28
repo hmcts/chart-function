@@ -1,0 +1,22 @@
+image: hmctspublic.azurecr.io/plum/batch:latest
+scaleType: Job
+pollingInterval: 45
+maxReplicaCount: 10
+successfulJobsHistoryLimit: 3
+failedJobsHistoryLimit: 2
+scalingStrategy: accurate
+rollout:
+  strategy: immediate
+  propagationPolicy: foreground
+job:
+  parallelism: 2
+  completions: 2
+  activeDeadlineSeconds: 300
+  backoffLimit: 3
+triggers:
+  - type: azure-servicebus
+    queueName: test-queue
+    connectionFromEnv: TEST_ENV # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
+    messageCount: 5
+environment:
+  TEST_ENV: "test"

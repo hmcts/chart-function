@@ -32,6 +32,48 @@ triggerAuth:
 We use semantic versioning via GitHub releases to handle new releases of this application chart, this is done via automation called Release Drafter. When you merge a PR to master, a new draft release will be created.
 More information is available about the [release process and how to create draft releases for testing purposes in more depth](https://hmcts.github.io/ops-runbooks/Testing-Changes/drafting-a-release.html)
 
+## Testing
+
+Unit tests are written using [helm-unittest](https://github.com/helm-unittest/helm-unittest) and live under
+`function/tests/unit-tests/`. They assert conditional rendering paths (ScaledJob vs ScaledObject, per-trigger
+metadata fields, TriggerAuthentication gating, etc.) without needing a live Kubernetes cluster.
+
+Run the full suite locally with:
+
+```bash
+./tests/test-templates.sh
+```
+
+This script:
+1. Vendors the `library` chart dependency (`helm dependency build function/`) — required since
+   `function/templates/secretproviderclass.yaml` delegates to `hmcts.*` named templates defined in
+   `chart-library`.
+2. Runs `helm lint function/ --values ci-values-servicebus.yaml`.
+3. Runs `helm unittest --values function/ci-values-minimal.yaml function -f 'tests/unit-tests/*.yaml'`.
+   `ci-values-minimal.yaml` supplies only the chart's one required field (`image`) so each test's own
+   `set:` block is the sole driver of the values under test — this prevents chart defaults from silently
+   satisfying a condition a test is meant to be verifying.
+
+Prerequisites:
+```bash
+brew install helm
+helm plugin install https://github.com/helm-unittest/helm-unittest.git
+```
+
+Pulling the `library` OCI dependency from `hmctsprod.azurecr.io` requires an authenticated Helm registry
+session. If `helm dependency build` fails with a `401 Unauthorized`, log in first:
+```bash
+az acr login --name hmctsprod --expose-token --output tsv --query accessToken \
+  | helm registry login hmctsprod.azurecr.io \
+      --username 00000000-0000-0000-0000-000000000000 \
+      --password-stdin
+```
+
+In CI (`azure-pipelines.yaml`), each `Validate*` job (`ValidateServiceBus`, `ValidateBlob`, `ValidateMixed`,
+`ValidateAzuredevopstrigger`, `ValidatePostgrestrigger`) also runs its matching `tests/unit-tests/*_test.yaml`
+file (via the shared `steps/charts/validate.yaml@cnp-azuredevops-libraries` template's `runUnitTests` /
+`unitTestFile` parameters) in addition to a real `helm install`/`helm test` against a live cluster, using the
+corresponding `ci-values-*.yaml` scenario at the repo root.
 
 ## Supported Scale Types
 
@@ -53,13 +95,14 @@ It currently supports below triggers:
 ### [Azure service bus trigger](https://keda.sh/docs/1.4/scalers/azure-service-bus/)
 ```helmyaml
 triggers
-  - type: azure-servicebus 
+  - type: azure-servicebus
     # Required: queueName OR topicName and subscriptionName
     queueName:
     topicName:
     subscriptionName:
-    connection: # This must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
-    queueLength: 1
+    serviceBusName: # Required if triggerAuth.enabled = true (pod identity); rendered as the KEDA "namespace" field
+    connectionFromEnv: # Required if triggerAuth.enabled = false. Must be the name of an env var (see `environment:`) holding a connection string for the queue itself, not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
+    messageCount: 1
 ```
 ### [Azure blob storage trigger](https://keda.sh/docs/1.4/scalers/azure-storage-blob/)
 ```helmyaml

@@ -7,12 +7,22 @@ triggerAuth:
   triggerPodIdentityProvider: "azure-workload"
 triggers:
 - type: azure-servicebus
-  serviceBusName: "test-sbus" # required if triggerAuth.Enabled = true
+  serviceBusName: "test-sbus" # required if triggerAuth.enabled = true
   # required: queueName OR topicName & subscriptionName
   queueName: "test-queue"
   #topicName: test-topic
   #subscriptionName: test-subscription
   messageCount: 5
+environment:
+  TEST_ENV: "test"
+
+# using Pod Identity with topic/subscription instead of queueName:
+# triggers:
+# - type: azure-servicebus
+#   serviceBusName: "test-sbus" # required if triggerAuth.enabled = true
+#   topicName: test-topic
+#   subscriptionName: test-subscription
+#   messageCount: 5
 
 # using Connection String.
 # image: hmctspublic.azurecr.io/plum/batch:latest
@@ -22,7 +32,7 @@ triggers:
 #   queueName: "test-queue"
 #   #topicName: test-topic
 #   #subscriptionName: test-subscription
-#   # required if triggerAuth.Enabled = false 
+#   # required if triggerAuth.enabled = false
 #   connectionFromEnv: 'SERVICEBUS_CONNECTIONSTRING'  # this must be a connection string for a queue itself, and not a namespace level (e.g. RootAccessPolicy) connection string [#215](https://github.com/kedacore/keda/issues/215)
 #   messageCount: 5
 # environment:

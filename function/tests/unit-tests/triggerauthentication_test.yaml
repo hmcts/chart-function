@@ -1,0 +1,58 @@
+suite: TriggerAuthentication tests
+templates:
+  - templates/TriggerAuthentication.yaml
+tests:
+  - it: should not render by default (triggerAuth.enabled is false)
+    set:
+      triggerAuth:
+        create: false
+        enabled: false
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should render when triggerAuth.create and triggerAuth.enabled are both true
+    set:
+      triggerAuth:
+        create: true
+        enabled: true
+        triggerPodIdentityProvider: azure-workload
+    asserts:
+      - hasDocuments:
+          count: 1
+      - isKind:
+          of: TriggerAuthentication
+      - equal:
+          path: spec.podIdentity.provider
+          value: azure-workload
+
+  - it: should not render when triggerAuth.create is false even if enabled is true
+    set:
+      triggerAuth:
+        create: false
+        enabled: true
+    asserts:
+      - hasDocuments:
+          count: 0
+
+  - it: should default the resource name to the release name
+    set:
+      triggerAuth:
+        create: true
+        enabled: true
+    asserts:
+      - equal:
+          path: metadata.name
+          value: release-name-function
+
+  - it: should use triggerAuth.nameOverride when set
+    set:
+      triggerAuth:
+        create: true
+        enabled: true
+        nameOverride: custom-auth-name
+    asserts:
+      - equal:
+          path: metadata.name
+          value: custom-auth-name
+

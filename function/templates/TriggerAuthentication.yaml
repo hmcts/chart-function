@@ -7,5 +7,7 @@ metadata:
 spec:
   podIdentity:
     provider: {{ .Values.triggerAuth.triggerPodIdentityProvider }} # none | azure | gcp | spiffe | aws-eks | aws-kiam
-    identityId: {{ .Values.triggerAuth.triggerPodIdentityIdentityId }} # ClientId From annotation on service-account
+    {{- if .Values.triggerAuth.triggerPodIdentityIdentityId }}
+    identityId: {{ .Values.triggerAuth.triggerPodIdentityIdentityId }} # ClientId from annotation on service-account
+    {{- end }}
 {{- end }}
