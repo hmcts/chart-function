@@ -9,7 +9,6 @@ triggers:
   - type: azure-blob
     blobContainerName: test-functions-blob
     blobCount: 1
-    connection: TEST_ENV # connection string authentication.
-    accountName: ""
+    accountName: "testaccount{{ .Values.global.environment }}"
 environment:
   TEST_ENV: "test"
