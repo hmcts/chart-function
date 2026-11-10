@@ -34,6 +34,64 @@ More information is available about the [release process and how to create draft
 
 ## Testing
 
+### Library dependency migrations
+
+Renovate library updates are labelled `library-migration`, kept separate from other
+updates, and require manual review. The
+[migration workflow](.github/workflows/migrate-library.yml) runs for same-repository
+`renovate/*` PRs created by `renovate[bot]`. If the existing Renovate installation
+uses a different login, set the repository variable `RENOVATE_BOT_LOGIN`.
+
+The workflow compares the `library` dependency in the PR base and branch, reads
+history between those chart-library release tags, and updates direct literal
+`include` and `template` helper references under `function/templates`. It reuses
+a pinned chart-library script, not scripts from the dependency PR or target
+release. Update the tooling SHA in the workflow when deliberately upgrading it.
+No migration logic is copied into this repository.
+
+Changed templates are committed to the same Renovate branch. Repeat runs make no
+additional changes. The workflow's fixed commit-author email is listed in
+`gitIgnoredAuthors`, so Renovate can still update or rebase its branch. A rebase
+may discard generated edits; the migration workflow then regenerates them.
+Keep that email aligned between the workflow and Renovate configuration.
+Missing tags/history/mappings, downgrades, or literal helper
+references used indirectly fail the migration. Computed helper names and changes
+to values or behaviour still require human review; this is not values migration.
+
+Before enabling:
+
+- Install the **existing** chart automation GitHub App on `chart-function` with
+  contents-write access, and expose its existing `CHART_AUTOMATION_APP_ID` and
+  `CHART_AUTOMATION_APP_PRIV_KEY` secrets to this repository. No new App is needed.
+- Require the `migrate` job and the existing Azure validation checks on the final
+  PR commit before merging. The App commit should trigger Azure PR validation;
+  verify this during the first live test. Earlier checks may fail before helper
+  references are migrated.
+- Merge the workflow and consumer script into the PR base branch before normal
+  PR-triggered use. The workflow never executes consumer scripts from the PR head.
+- Publish a library release containing recorded history before testing an upgrade.
+  Historical releases without history are not automatically backfilled.
+
+For a development-branch test, push an existing `renovate/*` branch containing a
+library dependency upgrade, then run **Migrate library helpers** manually, selecting
+this development branch as the workflow source and supplying the Renovate branch
+and its baseline branch. A manual run also commits any generated template changes.
+The normal Azure PR pipeline is unchanged.
+
+Local checks use Python 3.12+, Helm 3+, and a neighbouring chart-library checkout
+(no registry login or Python packages are needed for migration):
+
+```bash
+PYTHONDONTWRITEBYTECODE=1 python3 -S -m unittest discover -s tests/migrations -v
+python3 -S .github/scripts/migrate-library.py \
+  --consumer . --library ../chart-library --base origin/master
+```
+
+The local command modifies templates in place but does not commit or push.
+Override `LIBRARY_TOOLING` to use a different trusted library checkout for tests.
+
+### Chart validation
+
 Unit tests are written using [helm-unittest](https://github.com/helm-unittest/helm-unittest) and live under
 `function/tests/unit-tests/`. They assert conditional rendering paths (ScaledJob vs ScaledObject, per-trigger
 metadata fields, TriggerAuthentication gating, etc.) without needing a live Kubernetes cluster.
