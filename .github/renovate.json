@@ -6,5 +6,19 @@
   ],
   "labels": [
     "dependencies"
+  ],
+  "gitIgnoredAuthors": [
+    "chart-library-migrations@users.noreply.github.com"
+  ],
+  "packageRules": [
+    {
+      "description": "Keep library migrations in a separate, manually reviewed PR",
+      "matchManagers": ["helmv3"],
+      "matchDepNames": ["library"],
+      "groupName": null,
+      "addLabels": ["library-migration"],
+      "automerge": false,
+      "platformAutomerge": false
+    }
   ]
 }
