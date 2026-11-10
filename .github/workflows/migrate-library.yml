@@ -1,0 +1,140 @@
+name: Migrate library helpers
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Existing same-repository renovate/* branch to migrate"
+        required: true
+        type: string
+      base:
+        description: "Consumer branch before the dependency update"
+        default: master
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: library-migration-${{ github.event.pull_request.number || inputs.branch }}
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.head.repo.full_name == github.repository &&
+       github.event.pull_request.user.login == (vars.RENOVATE_BOT_LOGIN || 'renovate[bot]') &&
+       startsWith(github.event.pull_request.head.ref, 'renovate/'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Resolve trusted base and migration branch
+        id: refs
+        uses: actions/github-script@v7
+        env:
+          MANUAL_BRANCH: ${{ inputs.branch }}
+          MANUAL_BASE: ${{ inputs.base }}
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const branch = pr ? pr.head.ref : process.env.MANUAL_BRANCH;
+            if (!branch.startsWith('renovate/')) {
+              throw new Error('Only same-repository renovate/* branches may be updated');
+            }
+            const commit = async ref => (await github.rest.repos.getCommit({
+              ...context.repo, ref
+            })).data.sha;
+            const head = pr ? pr.head.sha : await commit(branch);
+            const base = pr ? pr.base.sha : await commit(process.env.MANUAL_BASE);
+            core.setOutput('branch', branch);
+            core.setOutput('head', head);
+            core.setOutput('base', base);
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ steps.refs.outputs.head }}
+          path: consumer
+          fetch-depth: 0
+          persist-credentials: false
+
+      # Never execute scripts supplied by the dependency PR.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          path: automation
+          persist-credentials: false
+
+      - name: Checkout pinned shared migration tooling and release tags
+        uses: actions/checkout@v4
+        with:
+          repository: hmcts/chart-library
+          ref: 36d76eb1cdacbfc34622a135c0e20d077f30c4cd
+          path: library-tooling
+          fetch-depth: 0
+          persist-credentials: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: azure/setup-helm@v4.3.0
+        with:
+          version: v3.17.3
+
+      - name: Run consumer automation tests
+        run: python -S -m unittest discover -s automation/tests/migrations -v
+        env:
+          LIBRARY_TOOLING: ${{ github.workspace }}/library-tooling
+          PYTHONDONTWRITEBYTECODE: '1'
+
+      - name: Apply helper migrations
+        env:
+          BASE_SHA: ${{ steps.refs.outputs.base }}
+        run: |
+          python -S automation/.github/scripts/migrate-library.py \
+            --consumer consumer --library library-tooling --base "$BASE_SHA"
+
+      - name: Detect template updates
+        id: changes
+        working-directory: consumer
+        run: |
+          git diff --check
+          if [ -n "$(git status --porcelain -- function/templates)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            git diff --stat -- function/templates
+          fi
+
+      - name: Create existing automation App token
+        if: steps.changes.outputs.changed == 'true'
+        id: app
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.CHART_AUTOMATION_APP_ID }}
+          private-key: ${{ secrets.CHART_AUTOMATION_APP_PRIV_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: chart-function
+          permission-contents: write
+
+      - name: Commit to the Renovate branch
+        if: steps.changes.outputs.changed == 'true'
+        working-directory: consumer
+        env:
+          GH_TOKEN: ${{ steps.app.outputs.token }}
+          APP_SLUG: ${{ steps.app.outputs.app-slug }}
+          BRANCH: ${{ steps.refs.outputs.branch }}
+        run: |
+          git config user.name "${APP_SLUG}[bot]"
+          git config user.email "chart-library-migrations@users.noreply.github.com"
+          git add -- function/templates
+          git commit -m "Migrate library helper references"
+          git -c credential.helper= -c 'credential.helper=!gh auth git-credential' \
+            push origin "HEAD:refs/heads/$BRANCH"
+
+      - name: Report validation requirement
+        run: |
+          echo "Migration completed. Existing Azure PR checks must pass on the final commit." \
+            >> "$GITHUB_STEP_SUMMARY"
